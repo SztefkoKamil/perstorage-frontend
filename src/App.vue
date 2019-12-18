@@ -27,7 +27,10 @@ export default {
   color: #2c3e50;
 
   background: linear-gradient(to right bottom, hsl(210, 4%, 20%), hsl(240, 4%, 6%), hsl(210, 4%, 20%),);
-  min-height: 800px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 
