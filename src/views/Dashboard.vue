@@ -20,7 +20,6 @@ export default {
 
 .dashboard {
   width: 100%;
-  height: 600px;
   background: hsla(210, 5%, 29%, 45%);
 }
 
