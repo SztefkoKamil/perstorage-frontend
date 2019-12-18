@@ -1,18 +1,18 @@
 <template>
   <div class="dashboard">
     <Panel></Panel>
+    <List></List>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Panel from '../components/Dashboard/Panel';
+import List from '../components/Dashboard/List';
 
 export default {
   name: 'dashboard',
-  components: {
-    Panel
-  }
+  components: { Panel, List }
 }
 </script>
 
