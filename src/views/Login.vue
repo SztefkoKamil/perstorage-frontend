@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <h1>Login</h1>
-    <!-- <LoginForm></LoginForm> -->
+    <LoginForm></LoginForm>
     <div class="to-register">
       <button class="to-register-btn">Signup</button>
     </div>
@@ -10,11 +10,11 @@
 
 <script>
 // @ is an alias to /src
+import LoginForm from '../components/Login/LoginForm'
 
 export default {
   name: 'login',
-  components: {
-  }
+  components: { LoginForm }
 }
 </script>
 
@@ -24,6 +24,16 @@ export default {
   width: 100%;
   background: hsla(210, 5%, 29%, 45%);
   padding: 50px 0 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media screen and (min-width: 710px) {
+  .login {
+    width: 700px;
+    margin-top: 50px;
+    border-radius: 20px;
+  }
 }
 
 .to-register {
