@@ -1,17 +1,21 @@
 <template>
   <div id="app">
-    <Dashboard></Dashboard>
+    <Signup></Signup>
   </div>
 </template>
 
 
 <script>
-import Dashboard from './views/Dashboard';
+// import Dashboard from './views/Dashboard';
+// import Login from './views/Login';
+import Signup from './views/Signup';
 
 
 export default {
   components: {
-    Dashboard
+    // Dashboard,
+    // Login,
+    Signup
   }
 }
 
@@ -19,20 +23,28 @@ export default {
 
 
 <style lang="scss">
+@import "./scss/variables.scss";
+@import "./scss/flexMixins.scss";
+
+*{ margin: 0; padding: 0; box-sizing: border-box;}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #fff;
 
-  background: linear-gradient(to right bottom, hsl(210, 4%, 20%), hsl(240, 4%, 6%), hsl(210, 4%, 20%),);
+  background: $appBackground;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  @include flexRow(center, flex-start);
 }
 
-
+.main-view {
+  width: 100%;
+  background: $viewBackground;
+  padding: 50px 0 30px;
+  @include flexColumn;
+}
 
 </style>
