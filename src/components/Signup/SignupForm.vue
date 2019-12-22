@@ -1,21 +1,27 @@
 <template>
-  <div class="signup-form">
+  <form class="signup-form" @submit.prevent="goSignup">
     <label for="signup-name">name</label>
-    <input type="text" id="signup-name">
+    <input type="text" id="signup-name" required v-model="name">
     <label for="signup-email">email</label>
-    <input type="text" id="signup-email">
+    <input type="text" id="signup-email" required v-model="email">
     <label for="signup-pass1">password</label>
-    <input type="text" id="signup-pass1">
-    <label for="signup-pass2">repeat password</label>
-    <input type="text" id="signup-pass2">
+    <input type="password" id="signup-pass1" required v-model="password1">
+    <label for="signup-pass2">confirm password</label>
+    <input type="password" id="signup-pass2" required v-model="password2">
     <div class="terms">
-      <input type="checkbox" id="signup-terms">
+      <input type="checkbox" id="signup-terms" required v-model="policy">
       <label for="signup-terms">Read & accept <button>privacy policy</button></label>
     </div>
     <!-- captcha here -->
-    <vue-recaptcha class="recaptcha-container" sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5"></vue-recaptcha>
+    <vue-recaptcha 
+      class="recaptcha-container" 
+      sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5" 
+      :loadRecaptchaScript="true" 
+      @verify="recaptchaVerify" 
+      @expired="recaptchaExpired"
+    ></vue-recaptcha>
     <button class="signup-form-btn" type="submit">Submit</button>
-  </div>
+  </form>
 </template>
 
 <script>
@@ -27,7 +33,37 @@ export default {
   components: { VueRecaptcha },
   data() {
     return {
+      name: '',
+      email:'',
+      password1: '',
+      password2: '',
+      policy: false,
+      recpatcha: false
     }
+  },
+  methods: {
+    goSignup() {
+      if(this.password1 !== this.password2) {
+        // confirm password message
+        console.log('Please confirm password');
+        return null;
+      }
+      if(!this.recpatcha) {
+        // confirm recaptcha message
+        console.log('Please confirm recaptcha');
+        return null;
+      }
+
+      const newUser = {
+        name: this.name,
+        email: this.email,
+        password: this.password1,
+      }
+      
+      this.$store.dispatch('postSignup', newUser);
+    },
+    recaptchaVerify(e) { this.recpatcha = true; },
+    recaptchaExpired(e) { this.recpatcha = false; }
   }
 }
 </script>
