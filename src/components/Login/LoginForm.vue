@@ -1,9 +1,9 @@
 <template>
-  <form class="login-form">
+  <form class="login-form" @submit.prevent="goLogin">
     <label for="login-email">email</label>
-    <input type="email" name="" id="login-email">
+    <input type="email" name="" id="login-email" required v-model="email">
     <label for="login-pass">password</label>
-    <input type="password" name="" id="login-pass">
+    <input type="password" name="" id="login-pass" required v-model="password">
     <button type="submit">Login</button>
   </form>
 </template>
@@ -12,6 +12,21 @@
 
 export default {
   name: 'login',
+  data() {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    goLogin() {
+      const user = {
+        email: this.email,
+        password: this.password
+      };
+      this.$store.dispatch('postLogin', user);
+    }
+  }
 }
 </script>
 
