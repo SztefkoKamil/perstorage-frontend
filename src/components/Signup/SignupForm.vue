@@ -15,16 +15,18 @@
       </label>
     </div>
     <!-- captcha here -->
-    <button type="submit">Submit</button>
+    <vue-recaptcha class="recaptcha-container" sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5"></vue-recaptcha>
+    <button class="signup-form-btn" type="submit">Submit</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
+import VueRecaptcha from 'vue-recaptcha';
 
 export default {
   name: 'login',
-  components: {  },
+  components: { VueRecaptcha },
   data() {
     return {
     }
@@ -77,8 +79,8 @@ export default {
     }
   }
 
-  &>button {
-    margin-top: 30px;
+  .signup-form-btn {
+    margin-top: 50px;
     border: 2px solid hsl(210, 65%, 28%);
     border-radius: 5px;
     padding: 10px 30px;
@@ -86,6 +88,12 @@ export default {
     background: #fff;
     color: hsl(210, 65%, 28%);
     cursor: pointer;
+  }
+
+  .recaptcha-container {
+    width: 300px;
+    border: 2px solid hsl(210, 65%, 28%);
+    border-radius: 5px;
   }
 }
 
