@@ -1,6 +1,6 @@
 <template>
   <div class="signup main-view">
-    <h1>Signup</h1>
+    <h1>Signup to Perstorage</h1>
     <SignupForm></SignupForm>
   </div>
 </template>
@@ -21,6 +21,9 @@ export default {
 // @import "../scss/flexMixins.scss";
 
 .signup {
+  h1 {
+    font-size: 26px;
+  }
 }
 @media screen and (min-width: 710px) {
   .signup {

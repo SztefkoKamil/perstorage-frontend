@@ -10,9 +10,7 @@
     <input type="text" id="signup-pass2">
     <div class="terms">
       <input type="checkbox" id="signup-terms">
-      <label for="signup-terms">Read & accept 
-        <button>privacy policy</button>
-      </label>
+      <label for="signup-terms">Read & accept <button>privacy policy</button></label>
     </div>
     <!-- captcha here -->
     <vue-recaptcha class="recaptcha-container" sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5"></vue-recaptcha>
@@ -40,7 +38,7 @@ export default {
 
 .signup-form {
   @include flexColumn;
-  margin-bottom: 50px;
+  margin: 50px 0;
 
   label {
     text-align: left;
@@ -79,6 +77,12 @@ export default {
     }
   }
 
+  .recaptcha-container {
+    width: 300px;
+    border: 2px solid hsl(210, 65%, 28%);
+    border-radius: 5px;
+  }
+
   .signup-form-btn {
     margin-top: 50px;
     border: 2px solid hsl(210, 65%, 28%);
@@ -88,12 +92,6 @@ export default {
     background: #fff;
     color: hsl(210, 65%, 28%);
     cursor: pointer;
-  }
-
-  .recaptcha-container {
-    width: 300px;
-    border: 2px solid hsl(210, 65%, 28%);
-    border-radius: 5px;
   }
 }
 
