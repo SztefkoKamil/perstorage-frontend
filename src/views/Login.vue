@@ -129,6 +129,7 @@ export default {
     font-size: 20px;
     background: hsl(210, 65%, 28%);
     color: #fff;
+    cursor: pointer;
   }
 }
 

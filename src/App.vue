@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      actualView: Login
+      actualView: Dashboard
     }
   },
   methods: {
@@ -36,12 +36,12 @@ export default {
     eventBus.$on('setView', (view) => { this.setView(view); });
   },
   beforeMount() {
-    const isToken = localStorage.getItem('token');
-    if(isToken) {
-      // this.actualView = Dashboard;
-    } else {
-      this.actualView = Login;
-    }
+    // const isToken = localStorage.getItem('token');
+    // if(isToken) {
+    // this.actualView = Dashboard;
+    // } else {
+    //   this.actualView = Login;
+    // }
   }
 }
 

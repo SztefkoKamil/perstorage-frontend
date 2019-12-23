@@ -48,11 +48,11 @@ export default {
         console.log('Please confirm password');
         return null;
       }
-      if(!this.recpatcha) {
-        // confirm recaptcha message
-        console.log('Please confirm recaptcha');
-        return null;
-      }
+      // if(!this.recpatcha) {
+      //   // confirm recaptcha message
+      //   console.log('Please confirm recaptcha');
+      //   return null;
+      // }
 
       const newUser = {
         name: this.name,

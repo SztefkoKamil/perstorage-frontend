@@ -8,10 +8,30 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    // allFiles: []
   },
   mutations: {
   },
   actions: {
+    // getFiles: async (context) => {
+    //   try {
+    //     const route = secret.mainRoute + secret.getFiles;
+    //     const token = localStorage.getItem('token');
+    //     const config = {
+    //       headers: {
+    //         'Content-Type': 'Application/json',
+    //         'Authorization': 'Bearer ' + token
+    //       }
+    //     };
+
+    //     const response = await fetch(route, config);
+    //     const result = await response.json();
+    //     console.log(result);
+    //   } catch (err) { console.log(err.message); }
+    // },
+    postFile: async (context, file) => {
+
+    },
     postLogin: async (context, user) => {
       const route = secret.mainRoute + secret.loginRoute;
       const config = {

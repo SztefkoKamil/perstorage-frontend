@@ -12,7 +12,10 @@ import List from '../components/Dashboard/List';
 
 export default {
   name: 'dashboard',
-  components: { Panel, List }
+  components: { Panel, List },
+  created() {
+    // this.$store.dispatch('getFiles');
+  }
 }
 </script>
 
