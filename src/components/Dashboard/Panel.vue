@@ -1,11 +1,20 @@
 <template>
   <nav id="panel" :class="{open: isPanelOpen}">
+    <div class="btns-panel">
+      <button>delete</button>
+      <h4>hello</h4>
+      <button>logout</button>
+    </div>
+    <UploadForm></UploadForm>
     <button id="toggleBtn" @click="isPanelOpen = !isPanelOpen"></button>
   </nav>
 </template>
 
 <script>
+import UploadForm from './UploadForm'
+
 export default {
+  components: { UploadForm },
   data() {
     return {
       navContainer: null,
@@ -19,11 +28,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "../../scss/flexMixins.scss";
+@import "../../scss/variables.scss";
 
 #panel {
   width: 100%;
   height: 120px;
-  background: red;
+  background: $colorOne;
   border-bottom-left-radius: 150px;
   border-bottom-right-radius: 150px;
   position: relative;
@@ -31,6 +42,27 @@ export default {
 
   &.open {
     transform: translateY(-100px);
+  }
+}
+
+.btns-panel {
+  @include flexRow(space-between);
+  padding: 10px 0;
+
+
+  h4 {
+    font-weight: 400;
+    font-size: 16px;
+  }
+  button {
+    background: transparent;
+    border: 1px solid $colorTwo;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 14px;
+    width: 60px;
+    height: 20px;
+    margin: 0 10px;
   }
 }
 
