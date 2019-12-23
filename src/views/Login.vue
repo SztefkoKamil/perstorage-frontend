@@ -8,8 +8,8 @@
       <button @click="toggleInfo = !toggleInfo">?</button>
     </div>
     <LoginForm></LoginForm>
-    <div class="to-register">
-      <button>Signup</button>
+    <div class="to-signup">
+      <button @click="redirect">Signup</button>
     </div>
   </div>
 </template>
@@ -17,6 +17,7 @@
 <script>
 // @ is an alias to /src
 import LoginForm from '../components/Login/LoginForm'
+import { eventBus } from '../main'
 
 export default {
   name: 'login',
@@ -25,6 +26,9 @@ export default {
     return {
       toggleInfo: false
     }
+  },
+  methods: {
+    redirect() { eventBus.$emit('setView', 'Signup'); }
   }
 }
 </script>
@@ -114,7 +118,7 @@ export default {
   }
 }
 
-.to-register {
+.to-signup {
   height: 200px;
     @include flexRow;
 
