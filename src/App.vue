@@ -1,21 +1,45 @@
 <template>
   <div id="app">
-    <Signup></Signup>
+    <component :is="actualView"></component>
   </div>
 </template>
 
 
 <script>
-// import Dashboard from './views/Dashboard';
-// import Login from './views/Login';
+import Dashboard from './views/Dashboard';
+import Login from './views/Login';
 import Signup from './views/Signup';
+import { eventBus } from './main'
 
 
 export default {
   components: {
-    // Dashboard,
-    // Login,
+    Dashboard,
+    Login,
     Signup
+  },
+  data() {
+    return {
+      actualView: Login
+    }
+  },
+  methods: {
+    setView(view) {
+      if(view === 'Login') { this.actualView = Login; }
+      else if(view === 'Dashboard') { this.actualView = Dashboard; }
+      else if(view === 'Signup') { this.actualView = Signup; }
+    }
+  },
+  created() {
+    eventBus.$on('setView', (view) => { this.setView(view); });
+  },
+  beforeMount() {
+    const isToken = localStorage.getItem('token');
+    if(isToken) {
+      // this.actualView = Dashboard;
+    } else {
+      this.actualView = Login;
+    }
   }
 }
 
