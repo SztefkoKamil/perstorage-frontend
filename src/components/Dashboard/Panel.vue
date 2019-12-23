@@ -3,7 +3,7 @@
     <div class="btns-panel">
       <button>delete</button>
       <h4>hello</h4>
-      <button>logout</button>
+      <button @click="logout">logout</button>
     </div>
     <UploadForm></UploadForm>
     <button id="toggleBtn" @click="isPanelOpen = !isPanelOpen"></button>
@@ -12,6 +12,7 @@
 
 <script>
 import UploadForm from './UploadForm'
+import { evantBus, eventBus } from '../../main'
 
 export default {
   components: { UploadForm },
@@ -19,6 +20,13 @@ export default {
     return {
       navContainer: null,
       isPanelOpen: false
+    }
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      eventBus.$emit('setView', 'Login');
     }
   },
   mounted() {
@@ -63,6 +71,7 @@ export default {
     width: 60px;
     height: 20px;
     margin: 0 10px;
+    cursor: pointer;
   }
 }
 
