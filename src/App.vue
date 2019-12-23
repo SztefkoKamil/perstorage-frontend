@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <component :is="actualView"></component>
+    <transition name="toggle-view" mode="out-in">
+      <component :is="actualView"></component>
+    </transition>
   </div>
 </template>
 
@@ -69,6 +71,36 @@ export default {
   background: $viewBackground;
   padding: 50px 0 30px;
   @include flexColumn;
+}
+
+// transition animations
+#app {
+  .toggle-view-enter-active {
+    animation: show-view .1s 1 linear;
+  }
+  @keyframes show-view {
+    0% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  .toggle-view-leave-active {
+    animation: hide-view .1s 1 linear;
+  }
+  @keyframes hide-view {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(0.2);
+      opacity: 0;
+    }
+  }
 }
 
 </style>
