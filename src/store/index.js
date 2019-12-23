@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import secret from '../../secret'
+import { eventBus } from '../main'
 
 Vue.use(Vuex)
 
@@ -33,6 +34,7 @@ export default new Vuex.Store({
         localStorage.setItem('userId', result.userId);
 
         // redirect to dashboard view
+        eventBus.$emit('setView', 'Dashboard');
 
       } catch (err) { console.log(err.message); }
     },
@@ -55,6 +57,7 @@ export default new Vuex.Store({
         console.log(result);
 
         // redirect to login view
+        eventBus.$emit('setView', 'Login');
 
       } catch (err) { console.log(err.message); }
     }
