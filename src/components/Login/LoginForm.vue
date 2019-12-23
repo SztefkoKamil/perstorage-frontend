@@ -3,7 +3,7 @@
     <label for="login-email">email</label>
     <input type="email" name="" id="login-email" required v-model="email">
     <label for="login-pass">password</label>
-    <input type="password" name="" id="login-pass" required v-model="password">
+    <input type="password" name="" id="login-pass" minlength="6" required v-model="password">
     <button type="submit">Login</button>
   </form>
 </template>

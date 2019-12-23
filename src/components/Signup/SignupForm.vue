@@ -5,9 +5,9 @@
     <label for="signup-email">email</label>
     <input type="text" id="signup-email" required v-model="email">
     <label for="signup-pass1">password</label>
-    <input type="password" id="signup-pass1" required v-model="password1">
+    <input type="password" id="signup-pass1" required minlength="6" v-model="password1">
     <label for="signup-pass2">confirm password</label>
-    <input type="password" id="signup-pass2" required v-model="password2">
+    <input type="password" id="signup-pass2" required minlength="6" v-model="password2">
     <div class="terms">
       <input type="checkbox" id="signup-terms" required v-model="policy">
       <label for="signup-terms">Read & accept <button>privacy policy</button></label>
