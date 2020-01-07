@@ -8,9 +8,17 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    // allFiles: []
+    fileTypes: ['image/jpeg', 'image/jpg', 'image/png', 'application/zip', 'application/x-7z-compressed', 'application/x-rar-compressed', 'application/pdf', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+    filesToUpload: []
   },
   mutations: {
+    setFiles(state, files) {
+      const typeFilter = files.filter(file => state.fileTypes.includes(file.type));
+      const sizeFilter = typeFilter.filter(file => file.size < 3002880);
+      if(sizeFilter.length > 0) {
+        state.filesToUpload = sizeFilter;
+      }
+    }
   },
   actions: {
     // getFiles: async (context) => {
@@ -29,8 +37,39 @@ export default new Vuex.Store({
     //     console.log(result);
     //   } catch (err) { console.log(err.message); }
     // },
-    postFile: async (context, file) => {
+    postFiles: async (context) => {
+      const files = context.state.filesToUpload;
+      if(files.length === 0) { return false; }
 
+      const formData = new FormData();
+      for(const file of files) {
+        formData.append('files', file);
+      }
+
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      const route = secret.mainRoute + secret.postFiles + '?userid=' + userId;
+      const config = {
+        method: 'POST',
+        body: formData,
+        headers: { 'Authorization': 'Bearer ' + token }
+      };
+
+      try {
+        const response = await fetch(route, config);
+        const result = await response.json();
+        if(response.status !== 201) {
+          console.log(result);
+          // call showError VUEX action
+          throw new Error('Files uploading filed');
+        }
+        console.log(result);
+
+        context.state.filesToUpload = [];
+
+        // reload files in dashboard
+
+      } catch (err) { console.log(err.message); }
     },
     postLogin: async (context, user) => {
       const route = secret.mainRoute + secret.loginRoute;

@@ -1,8 +1,8 @@
 <template>
-  <form class="upload-form">
+  <form class="upload-form" @submit.prevent="sendFiles" enctype="multipart/form-data">
     <div class="upload-input">
       <span class="fake-btn">Choose file</span>
-      <input type="file">
+      <input type="file" name="files" multiple @change="addFiles">
     </div>
     <button class="upload-btn" type="submit">Upload</button>
   </form>
@@ -15,6 +15,10 @@ export default {
     return {
     }
   },
+  methods: {
+    addFiles(e) { this.$store.commit('setFiles', Array.from(e.target.files)); },
+    sendFiles() { this.$store.dispatch('postFiles'); }
+  }
 }
 </script>
 
