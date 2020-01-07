@@ -9,7 +9,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     fileTypes: ['image/jpeg', 'image/jpg', 'image/png', 'application/zip', 'application/x-7z-compressed', 'application/x-rar-compressed', 'application/pdf', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
-    filesToUpload: []
+    filesToUpload: [],
+    userFiles: []
   },
   mutations: {
     setFiles(state, files) {
@@ -21,22 +22,24 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // getFiles: async (context) => {
-    //   try {
-    //     const route = secret.mainRoute + secret.getFiles;
-    //     const token = localStorage.getItem('token');
-    //     const config = {
-    //       headers: {
-    //         'Content-Type': 'Application/json',
-    //         'Authorization': 'Bearer ' + token
-    //       }
-    //     };
+    getFiles: async (context) => {
+      try {
+        const route = secret.mainRoute + secret.getFiles;
+        const token = localStorage.getItem('token');
+        const config = {
+          headers: {
+            'Content-Type': 'Application/json',
+            'Authorization': 'Bearer ' + token
+          }
+        };
 
-    //     const response = await fetch(route, config);
-    //     const result = await response.json();
-    //     console.log(result);
-    //   } catch (err) { console.log(err.message); }
-    // },
+        const response = await fetch(route, config);
+        const result = await response.json();
+        console.log(result);
+        context.state.userFiles = result;
+        eventBus.$emit('filesFetched');
+      } catch (err) { console.log(err.message); }
+    },
     postFiles: async (context) => {
       const files = context.state.filesToUpload;
       if(files.length === 0) { return false; }
@@ -68,6 +71,7 @@ export default new Vuex.Store({
         context.state.filesToUpload = [];
 
         // reload files in dashboard
+        context.dispatch('getFiles');
 
       } catch (err) { console.log(err.message); }
     },
