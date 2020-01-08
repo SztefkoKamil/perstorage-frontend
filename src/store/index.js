@@ -47,10 +47,10 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     postFiles: async (context) => {
-      eventBus.$emit('changeInfo', 'Uploading files');
-
       const files = context.state.filesToUpload;
       if(files.length === 0) { return false; }
+
+      eventBus.$emit('changeInfo', 'Uploading files');
 
       const formData = new FormData();
       for(const file of files) {
@@ -86,6 +86,29 @@ export default new Vuex.Store({
         // reload files in dashboard
         context.dispatch('getFiles');
 
+      } catch (err) { console.log(err.message); }
+    },
+    deleteFile: async (context, fileId) => {
+      // add alert question here
+
+      const route = secret.mainRoute + secret.deleteFile + fileId;
+      const token = localStorage.getItem('token');
+      const config = {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + token }
+      }
+
+      try {
+        const response = await fetch(route, config);
+        const result = await response.json();
+        if(response.status !== 202) {
+          console.log(result);
+          // call showError VUEX action
+          throw new Error('Files uploading filed');
+        }
+        console.log(result);
+
+        context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
       } catch (err) { console.log(err.message); }
     },
     postLogin: async (context, user) => {

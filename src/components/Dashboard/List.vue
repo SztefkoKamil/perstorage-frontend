@@ -3,7 +3,7 @@
       <h2>Loading...</h2>
     </div>
   <ul class="file-list" v-else>
-    <li v-for="file in files" :key="file.path">
+    <li v-for="file in files" :key="file.id" :data-id="file.id">
       <img v-if="file.type === 'image'" :src="file.path" alt="">
       <a v-else-if="file.type === 'document'" :href="file.path" target="_blank">
         <span>document</span>
@@ -11,17 +11,11 @@
       <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name">
         <span>compressed</span>
       </a>
-      <div class="layout">
+      <div class="layout" >
         <h3 :title="file.name">{{ file.name }}</h3>
-        <button class="layout-btn delete-btn">
-          <span class="fa-trash-alt fas"></span>
-        </button>
-        <a class="layout-btn download-btn" href="">
-          <span class="fa-download fas"></span>
-        </a>
-        <button class="layout-btn edit-btn">
-          <span class="fa-edit fas"></span>
-        </button>
+        <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
+        <a class="layout-btn download-btn fa-download fas" href=""></a>
+        <button class="layout-btn edit-btn fa-edit fas"></button>
       </div>
     </li>
   </ul>
@@ -37,6 +31,12 @@ export default {
     return {
       loading: true,
       files: []
+    }
+  },
+  methods: {
+    deleteFile(e) {
+      const fileId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
+      this.$store.dispatch('deleteFile', fileId)
     }
   },
   computed: mapState(['userFiles']),
