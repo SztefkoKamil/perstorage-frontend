@@ -12,18 +12,24 @@ import List from '../components/Dashboard/List';
 
 export default {
   name: 'dashboard',
-  components: { Panel, List },
-  created() {
-    // this.$store.dispatch('getFiles');
-  }
+  components: { Panel, List }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "../scss/variables.scss";
 
 .dashboard {
   width: 100%;
-  background: hsla(210, 5%, 29%, 45%);
+  background: $viewBackground;
+}
+@media screen and (min-width: 1024px) {
+  .dashboard {
+    width: 80vw;
+    margin-top: 50px;
+    border-radius: 20px;
+    overflow: hidden;
+  }
 }
 
 </style>

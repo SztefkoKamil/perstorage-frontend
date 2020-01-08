@@ -67,6 +67,7 @@ export default {
   h4 {
     font-weight: 400;
     font-size: 16px;
+    width: 50%;
   }
   button {
     background: transparent;

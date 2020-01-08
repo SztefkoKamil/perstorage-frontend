@@ -112,32 +112,36 @@ export default {
       .delete-btn {
         top: 0;
         left: 0;
-        border-bottom-right-radius: 12px
+        border-bottom-right-radius: 12px;
+        padding: 0 2px 2px 0;
       }
       .download-btn {
         top:0;
         right: 0;
-        border-bottom-left-radius: 12px
+        border-bottom-left-radius: 12px;
+        padding: 0 0 2px 2px;
       }
       .edit-btn {
         bottom:0;
         right: 0;
+        padding-left: 3px;
       }
       h3 {
         width: 100%;
+        height: 30px;
         position: absolute;
         bottom:0;
         left: 0;
         padding: 7px 32px 8px 5px;
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 400;
-        color: #000;
+        color: #222;
         white-space: nowrap;
         text-align: center;
         text-overflow: ellipsis;
         user-select: none;
         overflow: hidden;
-        background: rgba(175, 175, 175, 0.85);
+        background: rgba(175, 175, 175, 0.9);
       }
     }
   }
