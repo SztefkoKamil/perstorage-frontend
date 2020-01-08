@@ -16,9 +16,15 @@ export default new Vuex.Store({
     setFiles(state, files) {
       const typeFilter = files.filter(file => state.fileTypes.includes(file.type));
       const sizeFilter = typeFilter.filter(file => file.size < 3002880);
-      if(sizeFilter.length > 0) {
-        state.filesToUpload = sizeFilter;
-      }
+      const filesCounter = sizeFilter.length;
+
+      if(filesCounter > 0) state.filesToUpload = sizeFilter;
+      else state.filesToUpload = [];
+
+      let newInfo;
+      if(filesCounter === 1) newInfo = '1 file chosen';
+      else if (filesCounter > 1) newInfo = `${filesCounter} files chosen`
+      eventBus.$emit('changeInfo', newInfo);
     }
   },
   actions: {
@@ -41,6 +47,8 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     postFiles: async (context) => {
+      eventBus.$emit('changeInfo', 'Uploading files');
+
       const files = context.state.filesToUpload;
       if(files.length === 0) { return false; }
 
@@ -69,6 +77,11 @@ export default new Vuex.Store({
         console.log(result);
 
         context.state.filesToUpload = [];
+
+        eventBus.$emit('changeInfo', 'Files uploaded');
+        setTimeout(() => {
+          eventBus.$emit('changeInfo', 'Hello, add some files');
+        }, 3000)
 
         // reload files in dashboard
         context.dispatch('getFiles');

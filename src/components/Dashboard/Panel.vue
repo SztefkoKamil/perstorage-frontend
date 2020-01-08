@@ -2,7 +2,7 @@
   <nav id="panel" :class="{open: isPanelOpen}">
     <div class="btns-panel">
       <button>delete</button>
-      <h4>hello</h4>
+      <h4>{{ info }}</h4>
       <button @click="logout">logout</button>
     </div>
     <UploadForm></UploadForm>
@@ -12,14 +12,15 @@
 
 <script>
 import UploadForm from './UploadForm'
-import { evantBus, eventBus } from '../../main'
+import { eventBus } from '../../main'
 
 export default {
   components: { UploadForm },
   data() {
     return {
       navContainer: null,
-      isPanelOpen: false
+      isPanelOpen: false,
+      info: 'Hello, add some files',
     }
   },
   methods: {
@@ -28,6 +29,9 @@ export default {
       localStorage.removeItem('userId');
       eventBus.$emit('setView', 'Login');
     }
+  },
+  created() {
+    eventBus.$on('changeInfo', (info) => { this.info = info; });
   },
   mounted() {
     this.navContainer = document.getElementById('panel');
@@ -41,12 +45,14 @@ export default {
 
 #panel {
   width: 100%;
+  max-width: 500px;
   height: 120px;
   background: $colorOne;
   border-bottom-left-radius: 150px;
   border-bottom-right-radius: 150px;
   position: relative;
   transition: transform .2s linear;
+  margin: 0 auto;
 
   &.open {
     transform: translateY(-100px);
