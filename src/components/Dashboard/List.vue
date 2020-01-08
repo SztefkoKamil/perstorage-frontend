@@ -4,7 +4,6 @@
     </div>
   <ul class="file-list" v-else>
     <li v-for="file in files" :key="file.path">
-      <h3 :title="file.name">{{ file.name }}</h3>
       <img v-if="file.type === 'image'" :src="file.path" alt="">
       <a v-else-if="file.type === 'document'" :href="file.path" target="_blank">
         <span>document</span>
@@ -12,6 +11,18 @@
       <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name">
         <span>compressed</span>
       </a>
+      <div class="layout">
+        <h3 :title="file.name">{{ file.name }}</h3>
+        <button class="layout-btn delete-btn">
+          <span class="fa-trash-alt fas"></span>
+        </button>
+        <a class="layout-btn download-btn" href="">
+          <span class="fa-download fas"></span>
+        </a>
+        <button class="layout-btn edit-btn">
+          <span class="fa-edit fas"></span>
+        </button>
+      </div>
     </li>
   </ul>
 </template>
@@ -69,16 +80,10 @@ export default {
     background: hsl(210, 65%, 28%);
     @include flexColumn(space-around);
     overflow: hidden;
+    position: relative;
 
-    h3 {
-      width: 100%;
-      font-size: 18px;
-      font-weight: 500;
-      white-space: nowrap;
-      text-align: left;
-    }
     img {
-      max-height: 80%;
+      max-height: 100%;
       max-width: 100%
     }
     a {
@@ -86,6 +91,54 @@ export default {
       color: #fff;
       font-size: 30px;
       cursor: pointer;
+    }
+
+    .layout {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+
+      .layout-btn {
+        @include flexRow;
+        position: absolute;
+        background: rgb(238, 238, 238);
+        color: #000;
+        font-size: 16px;
+        width: 30px;
+        height: 30px;
+        border: none;
+        cursor: pointer;
+      }
+      .delete-btn {
+        top: 0;
+        left: 0;
+        border-bottom-right-radius: 12px
+      }
+      .download-btn {
+        top:0;
+        right: 0;
+        border-bottom-left-radius: 12px
+      }
+      .edit-btn {
+        bottom:0;
+        right: 0;
+      }
+      h3 {
+        width: 100%;
+        position: absolute;
+        bottom:0;
+        left: 0;
+        padding: 7px 32px 8px 5px;
+        font-size: 14px;
+        font-weight: 400;
+        color: #000;
+        white-space: nowrap;
+        text-align: center;
+        text-overflow: ellipsis;
+        user-select: none;
+        overflow: hidden;
+        background: rgba(175, 175, 175, 0.85);
+      }
     }
   }
 }
