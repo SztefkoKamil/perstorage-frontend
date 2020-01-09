@@ -5,16 +5,17 @@
   <ul class="file-list" v-else>
     <li v-for="file in files" :key="file.id" :data-id="file.id">
       <img v-if="file.type === 'image'" :src="file.path" alt="">
-      <a v-else-if="file.type === 'document'" :href="file.path" target="_blank">
-        <span>document</span>
-      </a>
-      <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name">
-        <span>compressed</span>
-      </a>
+      <i v-else-if="file.type === 'document'" class="fas fa-file-alt fa-4x"></i>
+      <i v-else-if="file.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
+
       <div class="layout" >
+        <a class="layout-bg-btn" v-if="file.type === 'document'" :href="file.path"  target="_blank"></a>
+        <a class="layout-bg-btn" v-if="file.type === 'compressed'" :href="file.path"></a>
         <h3 :title="file.name">{{ file.name }}</h3>
         <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
-        <a class="layout-btn download-btn fa-download fas" href=""></a>
+        <a v-if="file.type === 'document'" :href="file.path" target="_blank" class="layout-btn download-btn fa-download fas"></a>
+        <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name" class="layout-btn download-btn fa-download fas"></a>
+        <a v-else :href="file.path" :download="file.name" target="_blank" class="layout-btn download-btn fa-download fas"></a>
         <button class="layout-btn edit-btn fa-edit fas"></button>
       </div>
     </li>
@@ -60,6 +61,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "../../scss/flexMixins.scss";
+@import "../../scss/variables.scss";
 
 .loading-container {
   @include flexRow;
@@ -82,15 +84,11 @@ export default {
     overflow: hidden;
     position: relative;
 
+    i { color: $colorTwo; }
+    
     img {
       max-height: 100%;
       max-width: 100%
-    }
-    a {
-      text-decoration: none;
-      color: #fff;
-      font-size: 30px;
-      cursor: pointer;
     }
 
     .layout {
@@ -98,6 +96,12 @@ export default {
       width: 100%;
       height: 100%;
 
+      .layout-bg-btn {
+        height: 100%;
+        width: 100%;
+        cursor: pointer;
+        display: block;
+      }
       .layout-btn {
         @include flexRow;
         position: absolute;
