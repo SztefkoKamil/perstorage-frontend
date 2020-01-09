@@ -22,7 +22,7 @@ export default {
   },
   data() {
     return {
-      actualView: Dashboard
+      actualView: Login
     }
   },
   methods: {
@@ -30,18 +30,16 @@ export default {
       if(view === 'Login') { this.actualView = Login; }
       else if(view === 'Dashboard') { this.actualView = Dashboard; }
       else if(view === 'Signup') { this.actualView = Signup; }
+    },
+    checkLogin() {
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      if(token && userId) this.setView('Dashboard');
     }
   },
   created() {
     eventBus.$on('setView', (view) => { this.setView(view); });
-  },
-  beforeMount() {
-    // const isToken = localStorage.getItem('token');
-    // if(isToken) {
-    // this.actualView = Dashboard;
-    // } else {
-    //   this.actualView = Login;
-    // }
+    this.checkLogin();
   }
 }
 
