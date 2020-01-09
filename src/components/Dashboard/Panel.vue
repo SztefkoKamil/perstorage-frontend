@@ -7,12 +7,14 @@
     </div>
     <UploadForm></UploadForm>
     <button id="toggleBtn" @click="isPanelOpen = !isPanelOpen"></button>
+    <span class="files-counter">{{ filesCounter }} files stored</span>
   </nav>
 </template>
 
 <script>
 import UploadForm from './UploadForm'
 import { eventBus } from '../../main'
+import { mapState } from 'vuex';
 
 export default {
   components: { UploadForm },
@@ -21,6 +23,7 @@ export default {
       navContainer: null,
       isPanelOpen: false,
       info: 'Hello, add some files',
+      filesCounter: 0
     }
   },
   methods: {
@@ -30,8 +33,15 @@ export default {
       eventBus.$emit('setView', 'Login');
     }
   },
+  computed: mapState(['userFiles']),
+  watch: {
+    userFiles(newFiles) {
+      this.filesCounter = newFiles.length;
+    }
+  },
   created() {
     eventBus.$on('changeInfo', (info) => { this.info = info; });
+    this.filesCounter = this.$store.state.userFiles.length;
   },
   mounted() {
     this.navContainer = document.getElementById('panel');
@@ -46,16 +56,19 @@ export default {
 #panel {
   width: 100%;
   max-width: 500px;
-  height: 120px;
+  height: 121px;
   background: $colorOne;
   border-bottom-left-radius: 150px;
-  border-bottom-right-radius: 150px;
-  position: relative;
+  // border-bottom-right-radius: 150px;
+  border-bottom: 1px solid $colorTwo;
+  border-left: 1px solid $colorTwo;
+  position: absolute;
+  top: -100px;
+  right: 0px;
   transition: transform .2s linear;
-  margin: 0 auto;
 
   &.open {
-    transform: translateY(-100px);
+    transform: translateY(100px);
   }
 }
 
@@ -68,12 +81,14 @@ export default {
     font-weight: 400;
     font-size: 16px;
     width: 50%;
+    user-select: none;
+    color: $fontColorOne;
   }
   button {
     background: transparent;
     border: 1px solid $colorTwo;
     border-radius: 5px;
-    color: #fff;
+    color: $fontColorOne;
     font-size: 14px;
     width: 60px;
     height: 20px;
@@ -93,6 +108,19 @@ export default {
   border: none;
   border-radius: 50%;
   cursor: pointer;
+}
+
+.files-counter {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-size: 18px;
+  user-select: none;
+  color: $fontColorOne;
+  padding-right: 5px;
+}
+@media screen and (min-width: 1024px) {
+  .files-counter { padding-right: 20px; }
 }
 
 </style>
