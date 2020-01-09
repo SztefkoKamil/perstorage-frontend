@@ -60,6 +60,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #fff;
+  overflow: hidden;
 
   background: $appBackground;
   min-height: 100vh;

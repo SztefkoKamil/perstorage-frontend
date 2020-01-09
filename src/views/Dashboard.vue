@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard">
-    <Panel></Panel>
     <List></List>
+    <Panel></Panel>
   </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
     margin-top: 50px;
     border-radius: 20px;
     overflow: hidden;
+    position: relative;
   }
 }
 

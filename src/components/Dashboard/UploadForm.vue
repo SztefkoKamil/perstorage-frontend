@@ -39,6 +39,7 @@ export default {
     width: 87px;
     height: 23px;
     font-size: 14px;
+    cursor: pointer;
   }
 }
 
@@ -50,19 +51,16 @@ export default {
   border-radius: 5px;
   margin-right: 10px;
 
-  input {
-    opacity: 0;
-    cursor: pointer;
-  }
+  input { opacity: 0; }
 
   .fake-btn {
-    position: absolute;
+    @include flexRow;
     width: 100%;
     height: 100%;
+    position: absolute;
     top: 0;
     left: 0;
     font-size: 14px;
-    @include flexRow;
   }
 }
 
