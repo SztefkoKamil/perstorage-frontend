@@ -62,7 +62,7 @@ export default {
   // border-bottom-right-radius: 150px;
   border-bottom: 1px solid $colorTwo;
   border-left: 1px solid $colorTwo;
-  position: absolute;
+  position: fixed;
   top: -100px;
   right: 0px;
   transition: transform .2s linear;
@@ -70,6 +70,9 @@ export default {
   &.open {
     transform: translateY(100px);
   }
+}
+@media screen and (min-width: 1024px) {
+  #panel { position: absolute; }
 }
 
 .btns-panel {
@@ -118,6 +121,7 @@ export default {
   user-select: none;
   color: $fontColorOne;
   padding-right: 5px;
+  line-height: 100%;
 }
 @media screen and (min-width: 1024px) {
   .files-counter { padding-right: 20px; }

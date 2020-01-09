@@ -85,7 +85,7 @@ export default {
     position: relative;
 
     i { color: $colorTwo; }
-    
+
     img {
       max-height: 100%;
       max-width: 100%
@@ -149,6 +149,17 @@ export default {
       }
     }
   }
+}
+@media screen and (min-width: 1024px) {
+  .file-list {
+    max-height: calc(100vh - 70px);
+    overflow-y: scroll;
+  }
+.file-list::-webkit-scrollbar { background: $colorOne; }
+.file-list::-webkit-scrollbar-thumb {
+  background: $colorTwo;
+  border-radius: 5px;
+}
 }
 
 </style>

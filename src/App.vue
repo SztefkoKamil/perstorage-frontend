@@ -52,6 +52,12 @@ export default {
 
 *{ margin: 0; padding: 0; box-sizing: border-box;}
 
+body::-webkit-scrollbar { background: $colorOne; }
+body::-webkit-scrollbar-thumb {
+  background: $colorTwo;
+  border-radius: 5px;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
