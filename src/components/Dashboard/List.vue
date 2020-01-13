@@ -154,6 +154,15 @@ export default {
   .file-list {
     max-height: calc(100vh - 70px);
     overflow-y: scroll;
+
+    li .layout {
+      height: 140%;
+      transition: height .15s linear;
+    }
+    li:hover .layout {
+      height: 100%;
+    }
+    li:last-child { margin-bottom: 20px; }
   }
 .file-list::-webkit-scrollbar { background: $colorOne; }
 .file-list::-webkit-scrollbar-thumb {
