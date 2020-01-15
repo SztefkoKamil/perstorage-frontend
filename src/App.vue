@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" :class="{openedGallery: gallery}">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
@@ -20,11 +20,10 @@ export default {
     Login,
     Signup
   },
-  data() {
-    return {
-      actualView: Login
-    }
-  },
+  data() { return {
+      actualView: Login,
+      gallery: false
+  }},
   methods: {
     setView(view) {
       if(view === 'Login') { this.actualView = Login; }
@@ -40,6 +39,8 @@ export default {
   created() {
     eventBus.$on('setView', (view) => { this.setView(view); });
     this.checkLogin();
+    eventBus.$on('showGallery', () => { this.gallery = true; });
+    eventBus.$on('hideGallery', () => { this.gallery = false; });
   }
 }
 
@@ -70,6 +71,8 @@ body::-webkit-scrollbar-thumb {
   min-height: 100vh;
   @include flexRow(center, flex-start);
 }
+
+#app.openedGallery { height: 100vh; }
 
 .main-view {
   width: 100%;

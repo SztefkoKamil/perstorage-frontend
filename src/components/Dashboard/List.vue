@@ -9,6 +9,7 @@
       <i v-else-if="file.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
 
       <div class="layout" >
+        <div class="layout-bg-btn" v-if="file.type === 'image'" @click="showGallery"></div>
         <a class="layout-bg-btn" v-if="file.type === 'document'" :href="file.path"  target="_blank"></a>
         <a class="layout-bg-btn" v-if="file.type === 'compressed'" :href="file.path"></a>
         <h3 :title="file.name">{{ file.name }}</h3>
@@ -38,6 +39,12 @@ export default {
     deleteFile(e) {
       const fileId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
       this.$store.dispatch('deleteFile', fileId)
+    },
+    showGallery(e) {
+      const imageId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
+      const images =  this.$store.state.userFiles.filter(file => file.type === 'image');
+      const index = images.findIndex(img => img.id === imageId);
+      eventBus.$emit('showGallery', index);
     }
   },
   computed: mapState(['userFiles']),
@@ -47,9 +54,6 @@ export default {
     }
   },
   created() {
-    // eventBus.$on('fetchingFiles', () => {
-    //   this.loading = true;
-    // });
     eventBus.$on('filesFetched', () => {
       this.files = this.$store.state.userFiles;
       this.loading = false;
