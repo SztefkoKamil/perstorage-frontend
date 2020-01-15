@@ -25,7 +25,7 @@ export default {
   }},
   watch: {
     gallery(newValue) {
-      if(newValue) this.$nextTick(() => this.$refs.galleryCloseBtn.focus() );
+      if(newValue) this.$nextTick(() => this.$refs.galleryCloseBtn.focus());
     }
   },
   methods: {
@@ -38,8 +38,8 @@ export default {
     eventBus.$on('showGallery', (index) => {
       this.clickedImage = index;
       this.gallery = true;
-      });
-  },
+    });
+  }
 }
 </script>
 
