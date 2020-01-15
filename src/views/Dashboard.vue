@@ -81,5 +81,12 @@ export default {
     cursor: pointer;
   }
 }
+@media screen and (min-width: 1024px) {
+  .gallery-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+}
 
 </style>

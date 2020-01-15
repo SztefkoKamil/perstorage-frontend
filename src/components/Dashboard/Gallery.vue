@@ -42,19 +42,16 @@ export default {
 @import "../../scss/flexMixins.scss";
 
 .swiper-container {
-  max-width: 100vw;
-  max-height: 100vh;
-  @include flexRow;
+  width: 100%;
+  height: 100%;
 
-  .swiper-wrapper {
-    height: 100%;
-    width: 100%;
-    align-items: center;
+  .swiper-slide {
+    @include flexRow;
   }
 
   img {
-    max-width: 100vw;
-    max-height: 100vh;
+    max-width: 100%;
+    max-height: 100%
   }
 
   .swiper-pagination {
@@ -64,6 +61,7 @@ export default {
     left: 50%;
     transform: translateX(-50%);
   }
+
 }
 
 </style>
