@@ -2,9 +2,9 @@
   <div class="dashboard">
     <List></List>
     <Panel></Panel>
-    <div v-if="gallery" class="gallery-container">
+    <div v-if="gallery" class="gallery-container" @keydown.esc="hideGallery">
+      <button @click="hideGallery" ref="galleryCloseBtn" class="close-gallery-btn">X</button>
       <Gallery :imageIndex="clickedImage"></Gallery>
-      <button @click="hideGallery" class="close-gallery-btn">X</button>
     </div>
   </div>
 </template>
@@ -23,6 +23,11 @@ export default {
     gallery: false,
     clickedImage: null
   }},
+  watch: {
+    gallery(newValue) {
+      if(newValue) this.$nextTick(() => this.$refs.galleryCloseBtn.focus() );
+    }
+  },
   methods: {
     hideGallery() {
       this.gallery = false;
@@ -34,7 +39,7 @@ export default {
       this.clickedImage = index;
       this.gallery = true;
       });
-  }
+  },
 }
 </script>
 
