@@ -18,7 +18,7 @@ export default {
   }},
   methods: {
     deleteFile() {
-      // this.$store.dispatch('deleteFile', this.file.id);
+      this.$store.dispatch('deleteFile', this.file.id);
       console.log('delete file ' + this.file.id);
     },
     hideConfirm() { eventBus.$emit('hideConfirm'); },

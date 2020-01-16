@@ -41,7 +41,7 @@ export default new Vuex.Store({
 
         const response = await fetch(route, config);
         const result = await response.json();
-        console.log(result);
+        // console.log(result);
         context.state.userFiles = result;
         eventBus.$emit('filesFetched');
       } catch (err) { console.log(err.message); }
@@ -107,6 +107,8 @@ export default new Vuex.Store({
           throw new Error('Files uploading filed');
         }
         console.log(result);
+
+        eventBus.$emit('hideConfirm');
 
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
       } catch (err) { console.log(err.message); }
