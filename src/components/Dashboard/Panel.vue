@@ -1,7 +1,7 @@
 <template>
   <nav id="panel" :class="{open: isPanelOpen}">
     <div class="btns-panel">
-      <button>delete</button>
+      <button @click="deleteUser">delete</button>
       <h4>{{ info }}</h4>
       <button @click="logout">logout</button>
     </div>
@@ -31,6 +31,13 @@ export default {
       localStorage.removeItem('token');
       localStorage.removeItem('userId');
       eventBus.$emit('setView', 'Login');
+    },
+    deleteUser() {
+      const data = {
+        actionType: 'delete-user',
+        userId: localStorage.getItem('userId')
+      };
+      eventBus.$emit('showConfirm', data);
     }
   },
   computed: mapState(['userFiles']),

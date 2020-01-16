@@ -7,7 +7,7 @@
       <Gallery :imageIndex="clickedImage"></Gallery>
     </div>
     <div v-if="confirm" class="confirm-container" @click.self="hideConf">
-      <Confirm :fileData="fileData"></Confirm>
+      <Confirm :data="data"></Confirm>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     gallery: false,
     clickedImage: null,
     confirm: false,
-    fileData: null
+    data: null
   }},
   watch: {
     gallery(newValue) {
@@ -48,8 +48,8 @@ export default {
       this.clickedImage = index;
       this.gallery = true;
     });
-    eventBus.$on('showConfirm', fileData => {
-      this.fileData = fileData;
+    eventBus.$on('showConfirm', data => {
+      this.data = data;
       this.confirm = true;
     })
     eventBus.$on('hideConfirm', () => {
