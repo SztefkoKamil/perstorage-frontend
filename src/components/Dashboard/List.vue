@@ -17,7 +17,7 @@
         <a v-if="file.type === 'document'" :href="file.path" target="_blank" class="layout-btn download-btn fa-download fas"></a>
         <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name" class="layout-btn download-btn fa-download fas"></a>
         <a v-else :href="file.path" :download="file.name" target="_blank" class="layout-btn download-btn fa-download fas"></a>
-        <button class="layout-btn edit-btn fa-edit fas"></button>
+        <button @click="editFile" :data-value="file.name" class="layout-btn edit-btn fa-edit fas"></button>
       </div>
     </li>
   </ul>
@@ -36,9 +36,17 @@ export default {
     }
   },
   methods: {
+    editFile(e) {
+      const fileData = {
+        actionType: 'edit-file',
+        fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value,
+        fileName: e.target.attributes.getNamedItem('data-value').value
+      };
+      eventBus.$emit('showConfirm', fileData);
+    },
     deleteFile(e) {
       const fileId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
-      this.$store.dispatch('deleteFile', fileId)
+      // this.$store.dispatch('deleteFile', fileId)
     },
     showGallery(e) {
       const imageId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;

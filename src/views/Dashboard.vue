@@ -6,6 +6,9 @@
       <button @click="hideGallery" ref="galleryCloseBtn" class="close-gallery-btn">X</button>
       <Gallery :imageIndex="clickedImage"></Gallery>
     </div>
+    <div v-if="confirm" class="confirm-container" @click.self="hideConf">
+      <Confirm :fileData="fileData"></Confirm>
+    </div>
   </div>
 </template>
 
@@ -15,13 +18,16 @@ import { eventBus } from '../main'
 import Panel from '../components/Dashboard/Panel';
 import List from '../components/Dashboard/List';
 import Gallery from '../components/Dashboard/Gallery';
+import Confirm from '../components/Dashboard/Confirm';
 
 export default {
   name: 'dashboard',
-  components: { Panel, List, Gallery },
+  components: { Panel, List, Gallery, Confirm },
   data() { return {
     gallery: false,
-    clickedImage: null
+    clickedImage: null,
+    confirm: false,
+    fileData: null
   }},
   watch: {
     gallery(newValue) {
@@ -32,6 +38,9 @@ export default {
     hideGallery() {
       this.gallery = false;
       eventBus.$emit('hideGallery');
+    },
+    hideConf() {
+      eventBus.$emit('hideConfirm');
     }
   },
   created() {
@@ -39,6 +48,13 @@ export default {
       this.clickedImage = index;
       this.gallery = true;
     });
+    eventBus.$on('showConfirm', fileData => {
+      this.fileData = fileData;
+      this.confirm = true;
+    })
+    eventBus.$on('hideConfirm', () => {
+      this.confirm = false;
+    })
   }
 }
 </script>
@@ -93,5 +109,17 @@ export default {
     left: 0;
   }
 }
+
+.confirm-container {
+  @include flexRow(center, flex-start);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: hsla(120, 0%, 50%, 90%);
+  height: 100vh;
+  width: 100vw;
+}
+
 
 </style>
