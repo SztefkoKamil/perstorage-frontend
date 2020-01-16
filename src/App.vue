@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{openedGallery: gallery}">
+  <div id="app" :class="{openedModal: modal}">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
@@ -22,7 +22,7 @@ export default {
   },
   data() { return {
       actualView: Login,
-      gallery: false
+      modal: false
   }},
   methods: {
     setView(view) {
@@ -39,8 +39,10 @@ export default {
   created() {
     eventBus.$on('setView', (view) => { this.setView(view); });
     this.checkLogin();
-    eventBus.$on('showGallery', () => { this.gallery = true; });
-    eventBus.$on('hideGallery', () => { this.gallery = false; });
+    eventBus.$on('showGallery', () => { this.modal = true; });
+    eventBus.$on('hideGallery', () => { this.modal = false; });
+    eventBus.$on('showConfirm', () => { this.modal = true; });
+    eventBus.$on('hideConfirm', () => { this.modal = false; });
   }
 }
 
@@ -72,7 +74,7 @@ body::-webkit-scrollbar-thumb {
   @include flexRow(center, flex-start);
 }
 
-#app.openedGallery { height: 100vh; }
+#app.openedModal { height: 100vh; }
 
 .main-view {
   width: 100%;
