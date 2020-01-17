@@ -88,9 +88,36 @@ export default new Vuex.Store({
 
       } catch (err) { console.log(err.message); }
     },
-    deleteFile: async (context, fileId) => {
-      // add alert question here
+    editFile: async (context, data) => {
+      const route = secret.mainRoute + secret.putFile;
+      const token = localStorage.getItem('token');
+      const config = {
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }
+      
+      try {
+        const response = await fetch(route, config);
+        const result = await response.json();
+        if(response.status !== 202) {
+          console.log(result);
+          // call showError VUEX action
+          throw new Error('File updating filed');
+        }
+        console.log(result);
 
+        eventBus.$emit('hideConfirm');
+
+        context.state.userFiles.forEach(file => {
+          if(file.id === data.id) file.name = data.name + data.ext;
+        });
+      } catch (err) { console.log(err.message); }
+    },
+    deleteFile: async (context, fileId) => {
       const route = secret.mainRoute + secret.deleteFile + fileId;
       const token = localStorage.getItem('token');
       const config = {

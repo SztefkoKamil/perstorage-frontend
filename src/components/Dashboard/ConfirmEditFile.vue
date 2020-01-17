@@ -22,9 +22,10 @@ export default {
     changeName() {
       const newFile = {
         id: this.data.fileId,
-        name: this.fileName + this.fileExt
+        name: this.fileName,
+        ext: this.fileExt
       };
-      // this.$store.dispatch('editFile', newFile);
+      this.$store.dispatch('editFile', newFile);
     },
     hideConfirm() {
       eventBus.$emit('hideConfirm');

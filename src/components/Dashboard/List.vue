@@ -9,16 +9,32 @@
       <i v-else-if="file.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
 
       <div class="layout" >
-        <div class="layout-bg-btn" v-if="file.type === 'image'" @click="showGallery"></div>
-        <a class="layout-bg-btn" v-if="file.type === 'document'" :href="file.path"  target="_blank"></a>
-        <a class="layout-bg-btn" v-if="file.type === 'compressed'" :href="file.path"></a>
+        <div class="layout-bg-btn" 
+          v-if="file.type === 'image'" 
+          @click="showGallery"></div>
+        <a class="layout-bg-btn" 
+          v-else-if="file.type === 'document'" 
+          :href="file.path"  
+          target="_blank"></a>
+        <a class="layout-bg-btn" 
+          v-else-if="file.type === 'compressed'" 
+          :href="file.path"></a>
         
         <h3 :title="file.name">{{ file.name }}</h3>
         <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
 
-        <a v-if="file.type === 'document'" :href="file.path" target="_blank" class="layout-btn download-btn fa-download fas"></a>
-        <a v-else-if="file.type === 'compressed'" :href="file.path" :download="file.name" class="layout-btn download-btn fa-download fas"></a>
-        <a v-else :href="file.path" :download="file.name" target="_blank" class="layout-btn download-btn fa-download fas"></a>
+        <a v-if="file.type === 'document'" 
+          :href="file.path" 
+          target="_blank" 
+          class="layout-btn download-btn fa-download fas"></a>
+        <a v-else-if="file.type === 'compressed'" 
+          :href="file.path" 
+          :download="file.name" 
+          class="layout-btn download-btn fa-download fas"></a>
+        <a v-else 
+          :href="file.path" 
+          :download="file.name" 
+          class="layout-btn download-btn fa-download fas"></a>
 
         <button @click="editFile" :data-value="file.name" class="layout-btn edit-btn fa-edit fas"></button>
       </div>
@@ -50,8 +66,7 @@ export default {
     deleteFile(e) {
       const fileData = {
         actionType: 'delete-file',
-        fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value,
-        // fileName: e.target.attributes.getNamedItem('data-value').value
+        fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value
       }
       eventBus.$emit('showConfirm', fileData);
       // this.$store.dispatch('deleteFile', fileId)
