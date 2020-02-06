@@ -1,12 +1,19 @@
 <template>
   <nav id="panel" :class="{open: isPanelOpen}">
     <div class="btns-panel">
-      <button @click="deleteUser">delete</button>
+      <button class="delete" @click="deleteUser">delete</button>
       <h4>{{ info }}</h4>
       <button @click="logout">logout</button>
     </div>
     <UploadForm></UploadForm>
-    <button id="toggleBtn" @click="isPanelOpen = !isPanelOpen"></button>
+    <div class="toggleBtn-wrapper">
+      <button 
+        @click="isPanelOpen = !isPanelOpen" 
+        :class="{open: isPanelOpen}"
+        id="toggleBtn" 
+        class="fas fa-arrow-alt-circle-down"
+      ></button>
+    </div>
     <span class="files-counter">{{ filesCounter }} files stored</span>
   </nav>
 </template>
@@ -86,7 +93,6 @@ export default {
   @include flexRow(space-between);
   padding: 10px 0;
 
-
   h4 {
     font-weight: 400;
     font-size: 16px;
@@ -97,27 +103,46 @@ export default {
   button {
     background: transparent;
     border: 1px solid $colorTwo;
-    border-radius: 5px;
+    border-radius: 15px;
     color: $fontColorOne;
     font-size: 14px;
-    width: 60px;
-    height: 20px;
+    padding: 6px 17px;
     margin: 0 10px;
     cursor: pointer;
   }
 }
 
-#toggleBtn {
+.toggleBtn-wrapper {
   width: 20px;
   height: 20px;
-  background: yellow;
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-10px);
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
+
+  #toggleBtn {
+    width: 20px;
+    height: 20px;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+    transition: transform .2s linear;
+
+    &.open { transform: rotate(180deg); }
+  }
+  #toggleBtn::after {
+    content: "";
+    width: 17px;
+    height: 17px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -2;
+    border-radius: 50%;
+    background: $colorTwo;
+  }
 }
 
 .files-counter {
