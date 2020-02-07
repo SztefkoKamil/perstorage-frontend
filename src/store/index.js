@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fileTypes: ['image/jpeg', 'image/jpg', 'image/png', 'application/zip', 'application/x-7z-compressed', 'application/x-rar-compressed', 'application/pdf', 'text/plain', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+    fileTypes: secret.fileTypes,
     filesToUpload: [],
     userFiles: []
   },
