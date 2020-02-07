@@ -3,6 +3,9 @@
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
+    <transition name="show-notification">
+      <Notification v-if="notification" :info="notificationInfo"></Notification>
+    </transition>
   </div>
 </template>
 
@@ -11,6 +14,7 @@
 import Dashboard from './views/Dashboard';
 import Login from './views/Login';
 import Signup from './views/Signup';
+import Notification from './components/Notification';
 import { eventBus } from './main'
 
 
@@ -18,11 +22,14 @@ export default {
   components: {
     Dashboard,
     Login,
-    Signup
+    Signup,
+    Notification
   },
   data() { return {
       actualView: Login,
-      modal: false
+      modal: false,
+      notification: false,
+      notificationInfo: null
   }},
   methods: {
     setView(view) {
@@ -34,15 +41,21 @@ export default {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       if(token && userId) this.setView('Dashboard');
+    },
+    showNotification(info) {
+      this.notificationInfo = info;
+      this.notification = true;
+      setTimeout(() => { this.notification = false; }, 3000);
     }
   },
   created() {
     eventBus.$on('setView', (view) => { this.setView(view); });
-    this.checkLogin();
+    eventBus.$on('showNotification', info => this.showNotification(info));
     eventBus.$on('showGallery', () => { this.modal = true; });
     eventBus.$on('hideGallery', () => { this.modal = false; });
     eventBus.$on('showConfirm', () => { this.modal = true; });
     eventBus.$on('hideConfirm', () => { this.modal = false; });
+    this.checkLogin();
   }
 }
 
@@ -73,7 +86,6 @@ body::-webkit-scrollbar-thumb {
   min-height: 100vh;
   @include flexRow(center, flex-start);
 }
-
 #app.openedModal { height: 100vh; }
 
 .main-view {
@@ -85,6 +97,7 @@ body::-webkit-scrollbar-thumb {
 
 // transition animations
 #app {
+  // toggle view ----------------------
   .toggle-view-enter-active {
     animation: show-view .1s 1 linear;
   }
@@ -109,6 +122,30 @@ body::-webkit-scrollbar-thumb {
     100% {
       transform: scale(0.2);
       opacity: 0;
+    }
+  }
+
+  // show notification --------------------
+  .show-notification-enter-active {
+    animation: show-notification .1s 1 linear;
+  }
+  @keyframes show-notification {
+    0% {
+      transform: translate(-50%, -150px);
+    }
+    100% {
+      transform: translate(-50%, 0px);
+    }
+  }
+  .show-notification-leave-active {
+    animation: hide-notification .1s 1 linear;
+  }
+  @keyframes hide-notification {
+    0% {
+      transform: translate(-50%, 0px);
+    }
+    100% {
+      transform: translate(-50%, -150px);
     }
   }
 }
