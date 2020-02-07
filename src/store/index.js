@@ -70,8 +70,8 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
-          console.log(result);
-          // call showError VUEX action
+          // console.log(result);
+          eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
         console.log(result);
@@ -104,8 +104,8 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          console.log(result);
-          // call showError VUEX action
+          // console.log(result);
+          eventBus.$emit('showNotification', result);
           throw new Error('File updating filed');
         }
         console.log(result);
@@ -129,8 +129,8 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          console.log(result);
-          // call showError VUEX action
+          // console.log(result);
+          eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
         console.log(result);
@@ -152,8 +152,8 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          console.log(result);
-          // call showError VUEX action
+          // console.log(result);
+          eventBus.$emit('showNotification', result);
           throw new Error('Login failed');
         }
         console.log(result);
@@ -178,8 +178,8 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
-          console.log(result);
-          // call showError VUEX action
+          // console.log(result);
+          eventBus.$emit('showNotification', result);
           throw new Error('Signup failed');
         }
         console.log(result);
