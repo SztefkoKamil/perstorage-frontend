@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
 import secret from '../../secret';
 import { eventBus } from '../main';
 
@@ -41,21 +40,19 @@ export default new Vuex.Store({
 
         const response = await fetch(route, config);
         const result = await response.json();
-        // console.log(result);
         context.state.userFiles = result;
         eventBus.$emit('filesFetched');
+
       } catch (err) { console.log(err.message); }
     },
     postFiles: async (context) => {
       const files = context.state.filesToUpload;
-      if(files.length === 0) { return false; }
+      if(files.length === 0) return false;
 
       eventBus.$emit('changeInfo', 'Uploading files');
 
       const formData = new FormData();
-      for(const file of files) {
-        formData.append('files', file);
-      }
+      for(const file of files) { formData.append('files', file); }
 
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
@@ -70,11 +67,9 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
-          // console.log(result);
           eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
-        // console.log(result);
 
         context.state.filesToUpload = [];
 
@@ -97,23 +92,23 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
-      }
+      };
       
       try {
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          // console.log(result);
           eventBus.$emit('showNotification', result);
           throw new Error('File updating filed');
         }
-        console.log(result);
 
         eventBus.$emit('hideConfirm');
+        eventBus.$emit('showNotification', result);
 
         context.state.userFiles.forEach(file => {
           if(file.id === data.id) file.name = data.name + data.ext;
         });
+
       } catch (err) { console.log(err.message); }
     },
     deleteFile: async (context, fileId) => {
@@ -136,6 +131,7 @@ export default new Vuex.Store({
         eventBus.$emit('showNotification', result);
 
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
+
       } catch (err) { console.log(err.message); }
     },
     postLogin: async (context, user) => {
@@ -150,16 +146,12 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          // console.log(result);
           eventBus.$emit('showNotification', result);
           throw new Error('Login failed');
         }
-        console.log(result);
         
         localStorage.setItem('token', result.token);
         localStorage.setItem('userId', result.userId);
-
-        // redirect to dashboard view
         eventBus.$emit('setView', 'Dashboard');
 
       } catch (err) { console.log(err.message); }
@@ -176,13 +168,10 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
-          // console.log(result);
           eventBus.$emit('showNotification', result);
           throw new Error('Signup failed');
         }
-        console.log(result);
-
-        // redirect to login view
+        
         eventBus.$emit('setView', 'Login');
 
       } catch (err) { console.log(err.message); }
