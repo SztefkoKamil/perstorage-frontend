@@ -15,24 +15,15 @@ export default {
   props: ['data'],
   data() { return {
     file: null,
-  }},
+  }; },
   methods: {
-    deleteFile() {
-      this.$store.dispatch('deleteFile', this.file.id);
-      console.log('delete file ' + this.file.id);
-    },
+    deleteFile() { this.$store.dispatch('deleteFile', this.file.id); },
     hideConfirm() { eventBus.$emit('hideConfirm'); },
-    getFile() {
-      this.$store.state.userFiles.map(file => { if(file.id === this.data.fileId) this.file = file; });
-    }
+    getFile() { this.$store.state.userFiles.map(file => { if(file.id === this.data.fileId) this.file = file; }); }
   },
-  created() {
-    this.getFile();
-  },
-  mounted() {
-    this.$refs.cancelBtn.focus();
-  }
-}
+  created() { this.getFile(); },
+  mounted() { this.$refs.cancelBtn.focus(); }
+};
 </script>
 
 <style lang="scss" scoped>
