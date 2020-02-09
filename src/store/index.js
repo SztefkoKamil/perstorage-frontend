@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-import secret from '../../secret'
-import { eventBus } from '../main'
+import secret from '../../secret';
+import { eventBus } from '../main';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
@@ -23,7 +23,7 @@ export default new Vuex.Store({
 
       let newInfo;
       if(filesCounter === 1) newInfo = '1 file chosen';
-      else if (filesCounter > 1) newInfo = `${filesCounter} files chosen`
+      else if (filesCounter > 1) newInfo = `${filesCounter} files chosen`;
       eventBus.$emit('changeInfo', newInfo);
     }
   },
@@ -123,19 +123,18 @@ export default new Vuex.Store({
       const config = {
         method: 'DELETE',
         headers: { 'Authorization': 'Bearer ' + token }
-      }
+      };
 
       try {
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
-          // console.log(result);
           eventBus.$emit('showNotification', result);
-          throw new Error('Files uploading filed');
+          throw new Error('File deleting failed');
         }
-        console.log(result);
 
         eventBus.$emit('hideConfirm');
+        eventBus.$emit('showNotification', result);
 
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
       } catch (err) { console.log(err.message); }
@@ -192,4 +191,4 @@ export default new Vuex.Store({
   },
   modules: {
   }
-})
+});
