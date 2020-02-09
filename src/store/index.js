@@ -74,17 +74,16 @@ export default new Vuex.Store({
           eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
-        console.log(result);
+        // console.log(result);
 
         context.state.filesToUpload = [];
 
         eventBus.$emit('changeInfo', 'Files uploaded');
         setTimeout(() => {
           eventBus.$emit('changeInfo', 'Hello, add some files');
-        }, 3000)
+        }, 3000);
 
-        // reload files in dashboard
-        context.dispatch('getFiles');
+        context.state.userFiles = [...context.state.userFiles, ...result.addedFiles];
 
       } catch (err) { console.log(err.message); }
     },
