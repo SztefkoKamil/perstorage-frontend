@@ -34,6 +34,7 @@
         <a v-else 
           :href="file.path" 
           :download="file.name" 
+          target="_blank" 
           class="layout-btn download-btn fa-download fas"></a>
 
         <button @click="editFile" :data-value="file.name" class="layout-btn edit-btn fa-edit fas"></button>
@@ -43,7 +44,7 @@
 </template>
 
 <script>
-import { eventBus } from '../../main'
+import { eventBus } from '../../main';
 import { mapState } from 'vuex';
 
 export default {
@@ -52,7 +53,7 @@ export default {
     return {
       loading: true,
       files: []
-    }
+    };
   },
   methods: {
     editFile(e) {
@@ -67,9 +68,8 @@ export default {
       const fileData = {
         actionType: 'delete-file',
         fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value
-      }
+      };
       eventBus.$emit('showConfirm', fileData);
-      // this.$store.dispatch('deleteFile', fileId)
     },
     showGallery(e) {
       const imageId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
@@ -91,7 +91,7 @@ export default {
     });
     this.$store.dispatch('getFiles');
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

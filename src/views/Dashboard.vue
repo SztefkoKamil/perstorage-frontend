@@ -13,8 +13,7 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import { eventBus } from '../main'
+import { eventBus } from '../main';
 import Panel from '../components/Dashboard/Panel';
 import List from '../components/Dashboard/List';
 import Gallery from '../components/Dashboard/Gallery';
@@ -28,7 +27,7 @@ export default {
     clickedImage: null,
     confirm: false,
     data: null
-  }},
+  }; },
   watch: {
     gallery(newValue) {
       if(newValue) this.$nextTick(() => this.$refs.galleryCloseBtn.focus());
@@ -51,12 +50,10 @@ export default {
     eventBus.$on('showConfirm', data => {
       this.data = data;
       this.confirm = true;
-    })
-    eventBus.$on('hideConfirm', () => {
-      this.confirm = false;
-    })
+    });
+    eventBus.$on('hideConfirm', () => this.confirm = false);
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
