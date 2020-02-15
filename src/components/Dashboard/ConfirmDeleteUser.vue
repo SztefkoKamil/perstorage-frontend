@@ -15,18 +15,15 @@ export default {
   props: ['data'],
   data() { return {
     file: null,
-  }},
+  }; },
   methods: {
-    deleteUser() {
-      // this.$store.dispatch('deleteuser', this.data.userId);
-      console.log('delete user ' + this.data.userId);
-    },
+    deleteUser() { this.$store.dispatch('deleteUser'); },
     hideConfirm() { eventBus.$emit('hideConfirm'); }
   },
   mounted() {
     this.$refs.cancelBtn.focus();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>

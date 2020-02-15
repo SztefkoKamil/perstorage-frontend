@@ -134,6 +134,31 @@ export default new Vuex.Store({
 
       } catch (err) { console.log(err.message); }
     },
+    deleteUser: async () => {
+      const route = secret.mainRoute + secret.deleteUser;
+      const token = localStorage.getItem('token');
+      const config = {
+        method: 'DELETE',
+        headers: { 
+          'Content-Type': 'Application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      };
+
+      try {
+        const response = await fetch(route, config);
+        const result = await response.json();
+        if(response.status !== 202) {
+          eventBus.$emit('showNotification', result);
+          throw new Error('User delete failed');
+        }
+
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        eventBus.$emit('setView', 'Login');
+
+      } catch (err) { console.log(err.message); }
+    },
     postLogin: async (context, user) => {
       const route = secret.mainRoute + secret.loginRoute;
       const config = {

@@ -40,10 +40,7 @@ export default {
       eventBus.$emit('setView', 'Login');
     },
     deleteUser() {
-      const data = {
-        actionType: 'delete-user',
-        userId: localStorage.getItem('userId')
-      };
+      const data = { actionType: 'delete-user' };
       eventBus.$emit('showConfirm', data);
     }
   },
