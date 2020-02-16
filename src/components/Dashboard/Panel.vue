@@ -6,6 +6,7 @@
       <button @click="logout">logout</button>
     </div>
     <UploadForm></UploadForm>
+    <div v-if="uploadBlocker" class="upload-blocker"></div>
     <div class="panel-info">
       <transition name="toggle-info">
         <p v-if="toggleInfo">
@@ -40,7 +41,8 @@ export default {
       navContainer: null,
       isPanelOpen: false,
       info: 'Hello, add some files.',
-      filesCounter: 0
+      filesCounter: 0,
+      uploadBlocker: false
     }; },
   methods: {
     logout() {
@@ -57,10 +59,22 @@ export default {
   watch: {
     userFiles(newFiles) {
       this.filesCounter = newFiles.length;
+    },
+    filesCounter(filesNumber) {
+      if(filesNumber >= 20) {
+        eventBus.$emit('disableUploadForm', true);
+        this.uploadBlocker = true;
+        this.info = 'Files limit reached.';
+      } else {
+        eventBus.$emit('disableUploadForm', false);
+        this.uploadBlocker = false;
+        this.info = 'Hello, add some files.';
+      }
     }
   },
   created() {
-    eventBus.$on('changeInfo', (info) => { this.info = info; });
+    eventBus.$on('closePanel', () => this.isPanelOpen = false);
+    eventBus.$on('changeInfo', info => this.info = info);
     this.filesCounter = this.$store.state.userFiles.length;
   },
   mounted() {
@@ -116,6 +130,15 @@ export default {
     margin: 0 10px;
     cursor: pointer;
   }
+}
+
+.upload-blocker {
+  position: absolute;
+  top: 56px;
+  left: 150px;
+  width: 200px;
+  height: 30px;
+  cursor: not-allowed;
 }
 
 .panel-info {

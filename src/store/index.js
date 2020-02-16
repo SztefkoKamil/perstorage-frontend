@@ -71,12 +71,11 @@ export default new Vuex.Store({
           throw new Error('Files uploading filed');
         }
 
+        eventBus.$emit('showNotification', result);
         context.state.filesToUpload = [];
 
-        eventBus.$emit('changeInfo', 'Files uploaded');
-        setTimeout(() => {
-          eventBus.$emit('changeInfo', 'Hello, add some files');
-        }, 3000);
+        eventBus.$emit('closePanel');
+        eventBus.$emit('changeInfo', 'Hello, add some files.');
 
         context.state.userFiles = [...context.state.userFiles, ...result.addedFiles];
 

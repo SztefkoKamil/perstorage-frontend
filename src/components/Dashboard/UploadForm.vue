@@ -2,24 +2,26 @@
   <form class="upload-form" @submit.prevent="sendFiles" enctype="multipart/form-data">
     <div class="upload-input">
       <span class="fake-btn">Choose file</span>
-      <input type="file" name="files" multiple @change="addFiles">
+      <input type="file" name="files" multiple @change="addFiles" :disabled="formDisabled">
     </div>
-    <button class="upload-btn" type="submit">Upload</button>
+    <button class="upload-btn" type="submit" :disabled="formDisabled">Upload</button>
   </form>
 </template>
 
 <script>
+import { eventBus } from './../../main';
+
 export default {
 
-  data() {
-    return {
-    }
-  },
+  data() { return {
+    formDisabled: false
+    }; },
   methods: {
     addFiles(e) { this.$store.commit('setFiles', Array.from(e.target.files)); },
     sendFiles() { this.$store.dispatch('postFiles'); }
-  }
-}
+  },
+  created() { eventBus.$on('disableUploadForm', value => this.formDisabled = value); }
+};
 </script>
 
 <style lang="scss" scoped>
