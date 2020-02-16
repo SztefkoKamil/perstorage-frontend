@@ -11,7 +11,7 @@
       <transition name="toggle-info">
         <p v-if="toggleInfo">
           <span>Enabled file formats: jpeg, jpg, png, pdf, txt, doc, docx, rar, zip, 7z.</span>
-          <span>File maximum size: 5Mb</span>
+          <span>Maximum file size: 2MB</span>
           <span>Maximum number of stored files: 20</span>
         </p>
       </transition>

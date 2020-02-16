@@ -15,9 +15,9 @@ export default {
 
   data() { return {
     formDisabled: false
-    }; },
+  }; },
   methods: {
-    addFiles(e) { this.$store.commit('setFiles', Array.from(e.target.files)); },
+    addFiles(e) { this.$store.commit('setFilesToUpload', Array.from(e.target.files)); },
     sendFiles() { this.$store.dispatch('postFiles'); }
   },
   created() { eventBus.$on('disableUploadForm', value => this.formDisabled = value); }

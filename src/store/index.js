@@ -12,15 +12,29 @@ export default new Vuex.Store({
     userFiles: []
   },
   mutations: {
-    setFiles(state, files) {
-      const typeFilter = files.filter(file => state.fileTypes.includes(file.type));
-      const sizeFilter = typeFilter.filter(file => file.size < 3002880);
-      const filesCounter = sizeFilter.length;
+    setFilesToUpload(state, files) {
+      const userFiles = state.userFiles;
 
-      if(filesCounter > 0) state.filesToUpload = sizeFilter;
+      const typeFilter = files.filter(file => state.fileTypes.includes(file.type));
+      const sizeFilter = typeFilter.filter(file => file.size < 2000000);
+      if(userFiles.length + sizeFilter.length > 20) {
+        while(true) {
+          sizeFilter.pop();
+          if(userFiles.length + sizeFilter.length <= 20) break;
+        }
+      }
+      const nameFilter = sizeFilter.filter(file => {
+        for(const i in userFiles) {
+          if(file.name === userFiles[i].name) return false;
+        }
+        return true;
+      });
+
+      const filesCounter = nameFilter.length;
+      if(filesCounter > 0) state.filesToUpload = nameFilter;
       else state.filesToUpload = [];
 
-      let newInfo;
+      let newInfo = 'Hello, add some files.';
       if(filesCounter === 1) newInfo = '1 file chosen';
       else if (filesCounter > 1) newInfo = `${filesCounter} files chosen`;
       eventBus.$emit('changeInfo', newInfo);
