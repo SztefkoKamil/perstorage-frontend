@@ -93,7 +93,6 @@ export default {
   height: 121px;
   background: $colorOne;
   border-bottom-left-radius: 150px;
-  // border-bottom-right-radius: 150px;
   border-bottom: 1px solid $colorTwo;
   border-left: 1px solid $colorTwo;
   position: fixed;
@@ -151,7 +150,7 @@ export default {
   p {
     position: absolute;
     width: 300px;
-    color: #fff;
+    color: $fontColorOne;
     background: $colorOne;
     padding: 10px;
     border-radius: 5px;

@@ -42,7 +42,7 @@ export default {
 
   h1 {
     font-size: 26px;
-    color: #fff;
+    color: $fontColorOne;
   }
 }
 @media screen and (min-width: 710px) {
@@ -124,8 +124,8 @@ export default {
     border-radius: 5px;
     padding: 10px 30px;
     font-size: 20px;
-    background: hsl(210, 65%, 28%);
-    color: #fff;
+    background: $colorOne;
+    color: $fontColorOne;
     cursor: pointer;
   }
 }

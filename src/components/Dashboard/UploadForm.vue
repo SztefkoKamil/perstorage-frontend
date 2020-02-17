@@ -37,7 +37,7 @@ export default {
     background: transparent;
     border: 1px solid $colorTwo;
     border-radius: 5px;
-    color: #fff;
+    color: $fontColorOne;
     width: 87px;
     height: 23px;
     font-size: 14px;

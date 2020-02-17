@@ -114,7 +114,7 @@ export default {
   
   li {
     height: 150px;
-    background: hsl(210, 65%, 28%);
+    background: $colorOne;
     @include flexColumn(space-around);
     overflow: hidden;
     position: relative;
@@ -141,7 +141,7 @@ export default {
         @include flexRow;
         position: absolute;
         background: rgb(238, 238, 238);
-        color: #000;
+        color: $fontColorTwo;
         font-size: 16px;
         width: 30px;
         height: 30px;
@@ -174,7 +174,7 @@ export default {
         padding: 7px 32px 8px 5px;
         font-size: 13px;
         font-weight: 400;
-        color: #222;
+        color: $fontColorTwo;
         white-space: nowrap;
         text-align: center;
         text-overflow: ellipsis;

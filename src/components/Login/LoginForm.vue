@@ -12,12 +12,10 @@
 
 export default {
   name: 'login',
-  data() {
-    return {
-      email: '',
-      password: ''
-    }
-  },
+  data() { return {
+    email: '',
+    password: ''
+  }; },
   methods: {
     goLogin() {
       const user = {
@@ -27,15 +25,15 @@ export default {
       this.$store.dispatch('postLogin', user);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
+@import '../../scss/flexMixins.scss';
+@import '../../scss/variables.scss';
 
 .login-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flexColumn;
   padding: 20px 0 50px;
   border-bottom: 1px dashed #fff;
 
@@ -47,21 +45,21 @@ export default {
   input {
     width: 300px;
     font-size: 18px;
-    color: hsl(210, 65%, 28%);
+    color: $colorOne;
     text-align: center;
     border-radius: 5px;
     padding: 4px 6px;
     background: #fff;
-    border: 2px solid hsl(210, 65%, 28%);
+    border: 2px solid $colorOne;
   }
   button {
     margin-top: 30px;
-    border: 2px solid hsl(210, 65%, 28%);
+    border: 2px solid $colorOne;
     border-radius: 5px;
     padding: 10px 30px;
     font-size: 20px;
     background: #fff;
-    color: hsl(210, 65%, 28%);
+    color: $colorOne;
     cursor: pointer;
   }
 }
