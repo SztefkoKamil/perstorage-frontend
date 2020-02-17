@@ -12,7 +12,6 @@
       <input type="checkbox" id="signup-terms" required v-model="policy">
       <label for="signup-terms">Read & accept <button>privacy policy</button></label>
     </div>
-    <!-- captcha here -->
     <vue-recaptcha 
       class="recaptcha-container" 
       sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5" 
@@ -25,56 +24,51 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import VueRecaptcha from 'vue-recaptcha';
 
 export default {
   name: 'login',
   components: { VueRecaptcha },
-  data() {
-    return {
-      name: '',
-      email:'',
-      password1: '',
-      password2: '',
-      policy: false,
-      recpatcha: false
-    }
-  },
+  data() { return {
+    name: '',
+    email:'',
+    password1: '',
+    password2: '',
+    policy: false,
+    recpatcha: false
+  }; },
   methods: {
     goSignup() {
       if(this.password1 !== this.password2) {
-        // confirm password message
         console.log('Please confirm password');
         return null;
       }
-      // if(!this.recpatcha) {
-      //   // confirm recaptcha message
-      //   console.log('Please confirm recaptcha');
-      //   return null;
-      // }
+      if(!this.recpatcha) {
+        console.log('Please confirm recaptcha');
+        return null;
+      }
 
       const newUser = {
         name: this.name,
         email: this.email,
         password: this.password1,
-      }
+      };
       
       this.$store.dispatch('postSignup', newUser);
     },
-    recaptchaVerify(e) { this.recpatcha = true; },
-    recaptchaExpired(e) { this.recpatcha = false; }
+    recaptchaVerify() { this.recpatcha = true; },
+    recaptchaExpired() { this.recpatcha = false; }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
-// @import "../scss/variables.scss";
+@import "../../scss/variables.scss";
 @import "../../scss/flexMixins.scss";
 
 .signup-form {
   @include flexColumn;
-  margin: 50px 0;
+  margin: 10px 0 50px;
 
   label {
     text-align: left;
@@ -84,12 +78,12 @@ export default {
   &>input {
     width: 300px;
     font-size: 18px;
-    color: hsl(210, 65%, 28%);
+    color: $colorOne;
     text-align: center;
     border-radius: 5px;
     padding: 4px 6px;
     background: #fff;
-    border: 2px solid hsl(210, 65%, 28%);
+    border: 2px solid $colorOne;
   }
 
   .terms {
@@ -115,18 +109,18 @@ export default {
 
   .recaptcha-container {
     width: 300px;
-    border: 2px solid hsl(210, 65%, 28%);
+    border: 2px solid $colorOne;
     border-radius: 5px;
   }
 
   .signup-form-btn {
     margin-top: 50px;
-    border: 2px solid hsl(210, 65%, 28%);
+    border: 2px solid $colorOne;
     border-radius: 5px;
     padding: 10px 30px;
     font-size: 20px;
     background: #fff;
-    color: hsl(210, 65%, 28%);
+    color: $colorOne;
     cursor: pointer;
   }
 }
