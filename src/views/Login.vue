@@ -15,22 +15,19 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import LoginForm from '../components/Login/LoginForm'
-import { eventBus } from '../main'
+import LoginForm from '../components/Login/LoginForm';
+import { eventBus } from '../main';
 
 export default {
   name: 'login',
   components: { LoginForm },
-  data() {
-    return {
+  data() { return {
       toggleInfo: false
-    }
-  },
+    }; },
   methods: {
     redirect() { eventBus.$emit('setView', 'Signup'); }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -78,9 +75,9 @@ export default {
     line-height: 120%;
   }
   .toggle-info-enter-active {
-    animation: show-login-info .1s 1 linear;
+    animation: show-info .1s 1 linear;
   }
-  @keyframes show-login-info {
+  @keyframes show-info {
     0% {
       opacity: 0;
       transform: translateY(20px);
@@ -91,9 +88,9 @@ export default {
     }
   }
   .toggle-info-leave-active {
-    animation: hide-login-info .1s 1 linear;
+    animation: hide-info .1s 1 linear;
   }
-  @keyframes hide-login-info {
+  @keyframes hide-info {
     0% {
       opacity: 1;
       transform: translateY(0px);
