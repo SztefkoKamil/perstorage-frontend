@@ -18,9 +18,10 @@ export default new Vuex.Store({
       const typeFilter = files.filter(file => state.fileTypes.includes(file.type));
       const sizeFilter = typeFilter.filter(file => file.size < 2000000);
       if(userFiles.length + sizeFilter.length > 20) {
-        while(true) {
+        let loop = true;
+        while(loop) {
           sizeFilter.pop();
-          if(userFiles.length + sizeFilter.length <= 20) break;
+          if(userFiles.length + sizeFilter.length <= 20) loop = false;
         }
       }
       const nameFilter = sizeFilter.filter(file => {
@@ -214,7 +215,5 @@ export default new Vuex.Store({
 
       } catch (err) { console.log(err.message); }
     }
-  },
-  modules: {
   }
 });
