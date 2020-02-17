@@ -48,39 +48,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/flexMixins.scss";
-@import "../../scss/variables.scss";
+@import "../../scss/confirmComponentStyles.scss";
 
 .edit-file-wrapper {
-    @include flexColumn(space-around);
-    height: 100%;
+  @include ConfirmStyles;
 
-    h4 {
-      font-weight: 500;
-    }
-
-    input {
-      padding: 5px;
-      width: 200px;
-      border-radius: 5px;
-      border: 1px solid $colorOne;
-      font-size: 14px;
-    }
-  
-
-  .buttons {
-    @include flexRow(space-between);
-    width: 200px;
-
-    button {
-      border: 1px solid $colorTwo;
-      background: $colorOne;
-      padding: 5px 10px;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-    }
+  input {
+    text-align: center;
   }
 }
 

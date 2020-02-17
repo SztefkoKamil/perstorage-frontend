@@ -27,34 +27,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/flexMixins.scss";
-@import "../../scss/variables.scss";
+@import "../../scss/confirmComponentStyles.scss";
 
 .delete-file-wrapper {
-    @include flexColumn(space-around);
-    height: 100%;
-
-    h4 {
-      font-weight: 500;
-      max-width: 100%;
-      overflow: hidden;
-      line-height: 120%;
-    }
-
-  .buttons {
-    @include flexRow(space-between);
-    width: 200px;
-
-    button {
-      border: 1px solid $colorTwo;
-      background: $colorOne;
-      padding: 5px 10px;
-      border-radius: 5px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 14px;
-    }
-  }
+  @include ConfirmStyles;
 }
 
 </style>
