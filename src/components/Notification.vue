@@ -11,8 +11,8 @@ export default {
     messageType: null
   }},
   beforeMount() {
-    if(!this.info.errorCode) this.messageType = 'message';
-    else this.messageType = 'error';
+    if(this.info.error) this.messageType = 'error';
+    else this.messageType = 'message';
   }
 }
 </script>

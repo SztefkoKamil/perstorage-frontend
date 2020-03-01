@@ -82,6 +82,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
@@ -112,6 +113,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('File updating filed');
         }
@@ -137,6 +139,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('File deleting failed');
         }
@@ -163,6 +166,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('User delete failed');
         }
@@ -185,6 +189,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 202) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('Login failed');
         }
@@ -207,6 +212,7 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         if(response.status !== 201) {
+          result.error = true;
           eventBus.$emit('showNotification', result);
           throw new Error('Signup failed');
         }
