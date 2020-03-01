@@ -189,6 +189,7 @@ export default {
     border-radius: 50%;
     font-size: 18px;
     font-weight: 900;
+    line-height: 1;
     color: $colorOne;
     cursor: pointer;
   }
