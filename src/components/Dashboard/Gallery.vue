@@ -2,6 +2,7 @@
 <swiper :options="swiperConfig">
   <swiperSlide v-for="img of images" :key="img.id">
     <img :src="img.path" alt="">
+    <p>{{img.name}}</p>
   </swiperSlide>
   <div class="swiper-button-prev" slot="button-prev"></div>
   <div class="swiper-button-next" slot="button-next"></div>
@@ -45,18 +46,23 @@ export default {
   height: 100%;
 
   .swiper-slide {
-    @include flexRow;
-  }
+    @include flexColumn;
 
-  img {
-    max-width: 100%;
-    max-height: 100%
+    img {
+      max-width: 100%;
+      max-height: 100%
+    }
+
+    p {
+      margin-top: 30px;
+    }
   }
 
   .swiper-pagination {
     background: gray;
     width: 100px;
     border-radius: 5px;
+    padding: 4px 5px 3px;
     left: 50%;
     transform: translateX(-50%);
   }
