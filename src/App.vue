@@ -66,6 +66,7 @@ export default {
     eventBus.$on('hideGallery', () => { this.modal = false; });
     eventBus.$on('showConfirm', () => { this.modal = true; });
     eventBus.$on('hideConfirm', () => { this.modal = false; });
+    window.loadingScreen.style.display = 'none';
     this.checkLogin();
   },
   mounted() {
