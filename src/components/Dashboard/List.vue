@@ -188,7 +188,7 @@ export default {
 @media screen and (min-width: 1024px) {
   .file-list {
     max-height: calc(100vh - 70px);
-    overflow-y: scroll;
+    overflow-y: auto;
 
     li:last-child { margin-bottom: 20px; }
   }
