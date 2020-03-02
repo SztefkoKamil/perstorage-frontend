@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{openedModal: modal}">
+  <div id="app" :class="{openedModal: modal, mouseDevice}">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
@@ -28,6 +28,7 @@ export default {
   data() { return {
       actualView: Login,
       modal: false,
+      mouseDevice: false,
       notification: false,
       notificationInfo: null
   }},
@@ -41,6 +42,10 @@ export default {
       const token = localStorage.getItem('token');
       const userId = localStorage.getItem('userId');
       if(token && userId) this.setView('Dashboard');
+    },
+    isTouchscreenDevice() {
+      const isTouchScreen = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 );
+      this.mouseDevice = !isTouchScreen;
     },
     showNotification(info) {
       this.notificationInfo = info;
@@ -56,6 +61,9 @@ export default {
     eventBus.$on('showConfirm', () => { this.modal = true; });
     eventBus.$on('hideConfirm', () => { this.modal = false; });
     this.checkLogin();
+  },
+  mounted() {
+    this.isTouchscreenDevice();
   }
 }
 

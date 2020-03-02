@@ -190,13 +190,6 @@ export default {
     max-height: calc(100vh - 70px);
     overflow-y: scroll;
 
-    li .layout {
-      height: 140%;
-      transition: height .15s linear;
-    }
-    li:hover .layout {
-      height: 100%;
-    }
     li:last-child { margin-bottom: 20px; }
   }
 .file-list::-webkit-scrollbar { background: $colorOne; }
@@ -204,6 +197,14 @@ export default {
   background: $colorTwo;
   border-radius: 5px;
 }
+}
+
+#app.mouseDevice li .layout {
+  height: 140%;
+  transition: height .15s linear;
+}
+#app.mouseDevice li:hover .layout {
+  height: 100%;
 }
 
 </style>
