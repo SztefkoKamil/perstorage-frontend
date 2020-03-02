@@ -7,7 +7,8 @@
       <Notification v-if="notification" :info="notificationInfo"></Notification>
     </transition>
     <div class="loading-container" v-if="loading">
-      <h2>Loading...</h2>
+      <h2>Loading</h2>
+      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
     </div>
   </div>
 </template>
@@ -80,8 +81,6 @@ export default {
 <style lang="scss">
 @import "./scss/variables.scss";
 @import "./scss/flexMixins.scss";
-
-*{ margin: 0; padding: 0; box-sizing: border-box;}
 
 body::-webkit-scrollbar { background: $colorOne; }
 body::-webkit-scrollbar-thumb {
@@ -166,7 +165,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 .loading-container {
-  @include flexRow;
+  @include flexColumn;
   position: fixed;
   top: 0;
   left: 0;
