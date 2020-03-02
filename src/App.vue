@@ -1,11 +1,14 @@
 <template>
-  <div id="app" :class="{openedModal: modal, mouseDevice}">
+  <div id="app" :class="{openedModal: modal, openedModal: loading, mouseDevice}">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
     <transition name="show-notification">
       <Notification v-if="notification" :info="notificationInfo"></Notification>
     </transition>
+    <div class="loading-container" v-if="loading">
+      <h2>Loading...</h2>
+    </div>
   </div>
 </template>
 
@@ -27,6 +30,7 @@ export default {
   },
   data() { return {
       actualView: Login,
+      loading: false,
       modal: false,
       mouseDevice: false,
       notification: false,
@@ -56,6 +60,8 @@ export default {
   created() {
     eventBus.$on('setView', (view) => { this.setView(view); });
     eventBus.$on('showNotification', info => this.showNotification(info));
+    eventBus.$on('showLoading', () => { this.loading = true; });
+    eventBus.$on('hideLoading', () => { this.loading = false; });
     eventBus.$on('showGallery', () => { this.modal = true; });
     eventBus.$on('hideGallery', () => { this.modal = false; });
     eventBus.$on('showConfirm', () => { this.modal = true; });
@@ -155,6 +161,20 @@ body::-webkit-scrollbar-thumb {
     100% {
       transform: translate(-50%, -150px);
     }
+  }
+}
+
+.loading-container {
+  @include flexRow;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: hsla(0, 0%, 35%, 95%);
+
+  h2 {
+    font-size: calc(20px + 10vw);
   }
 }
 

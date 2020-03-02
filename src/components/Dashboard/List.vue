@@ -1,8 +1,5 @@
 <template>
-    <div class="loading-container" v-if="loading">
-      <h2>Loading...</h2>
-    </div>
-  <ul class="file-list" v-else>
+  <ul class="file-list">
     <li v-for="file in files" :key="file.id" :data-id="file.id">
       <img v-if="file.type === 'image'" :src="file.path" alt="">
       <i v-else-if="file.type === 'document'" class="fas fa-file-alt fa-4x"></i>
@@ -51,7 +48,6 @@ export default {
 
   data() {
     return {
-      loading: true,
       files: []
     };
   },
@@ -85,10 +81,7 @@ export default {
     }
   },
   created() {
-    eventBus.$on('filesFetched', () => {
-      this.files = this.$store.state.userFiles;
-      this.loading = false;
-    });
+    eventBus.$on('filesFetched', () => this.files = this.$store.state.userFiles);
     this.$store.dispatch('getFiles');
   }
 };
@@ -97,11 +90,6 @@ export default {
 <style lang="scss" scoped>
 @import "../../scss/flexMixins.scss";
 @import "../../scss/variables.scss";
-
-.loading-container {
-  @include flexRow;
-  height: 400px;
-}
 
 .file-list {
   width: 100%;

@@ -43,6 +43,7 @@ export default new Vuex.Store({
   },
   actions: {
     getFiles: async (context) => {
+      eventBus.$emit('showLoading');
       try {
         const route = secret.mainRoute + secret.getFiles;
         const token = localStorage.getItem('token');
@@ -56,11 +57,13 @@ export default new Vuex.Store({
         const response = await fetch(route, config);
         const result = await response.json();
         context.state.userFiles = result;
+        eventBus.$emit('hideLoading');
         eventBus.$emit('filesFetched');
 
       } catch (err) { console.log(err.message); }
     },
     postFiles: async (context) => {
+      eventBus.$emit('showLoading');
       const files = context.state.filesToUpload;
       if(files.length === 0) return false;
 
@@ -83,10 +86,12 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 201) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('Files uploading filed');
         }
 
+        eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
         context.state.filesToUpload = [];
 
@@ -98,6 +103,8 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     editFile: async (context, data) => {
+      eventBus.$emit('hideConfirm');
+      eventBus.$emit('showLoading');
       const route = secret.mainRoute + secret.putFile;
       const token = localStorage.getItem('token');
       const config = {
@@ -114,11 +121,12 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 202) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('File updating filed');
         }
 
-        eventBus.$emit('hideConfirm');
+        eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
 
         context.state.userFiles.forEach(file => {
@@ -128,6 +136,8 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     deleteFile: async (context, fileId) => {
+      eventBus.$emit('hideConfirm');
+      eventBus.$emit('showLoading');
       const route = secret.mainRoute + secret.deleteFile + fileId;
       const token = localStorage.getItem('token');
       const config = {
@@ -140,11 +150,12 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 202) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('File deleting failed');
         }
 
-        eventBus.$emit('hideConfirm');
+        eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
 
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
@@ -152,6 +163,8 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     deleteUser: async () => {
+      eventBus.$emit('hideConfirm');
+      eventBus.$emit('showLoading');
       const route = secret.mainRoute + secret.deleteUser;
       const token = localStorage.getItem('token');
       const config = {
@@ -167,17 +180,20 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 202) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('User delete failed');
         }
 
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
+        eventBus.$emit('hideLoading');
         eventBus.$emit('setView', 'Login');
 
       } catch (err) { console.log(err.message); }
     },
     postLogin: async (context, user) => {
+      eventBus.$emit('showLoading');
       const route = secret.mainRoute + secret.loginRoute;
       const config = {
         method: 'POST',
@@ -190,6 +206,7 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 202) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('Login failed');
         }
@@ -201,6 +218,7 @@ export default new Vuex.Store({
       } catch (err) { console.log(err.message); }
     },
     postSignup: async (context, newUser) => {
+      eventBus.$emit('showLoading');
       const route = secret.mainRoute + secret.signupRoute;
       const config = {
         method: 'POST',
@@ -213,10 +231,12 @@ export default new Vuex.Store({
         const result = await response.json();
         if(response.status !== 201) {
           result.error = true;
+          eventBus.$emit('hideLoading');
           eventBus.$emit('showNotification', result);
           throw new Error('Signup failed');
         }
         
+        eventBus.$emit('hideLoading');
         eventBus.$emit('setView', 'Login');
 
       } catch (err) { console.log(err.message); }
