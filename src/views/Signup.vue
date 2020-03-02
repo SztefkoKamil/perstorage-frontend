@@ -113,6 +113,7 @@ export default {
     font-size: 20px;
     font-weight: 900;
     color: $colorOne;
+    line-height: 1;
     cursor: pointer;
   }
 }
