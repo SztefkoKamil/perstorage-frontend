@@ -12,20 +12,31 @@
       <button @click="toggleInfo = !toggleInfo">?</button>
     </div>
     <SignupForm></SignupForm>
+    <div class="back-to-login">
+      <button @click="backToLogin">Login</button>
+    </div>
   </div>
 </template>
 
 <script>
-import SignupForm from '../components/Signup/SignupForm';
+import SignupForm from "../components/Signup/SignupForm";
+import { eventBus } from "../main";
 
 export default {
-  name: 'home',
+  name: "home",
   components: {
     SignupForm
   },
-  data() { return {
-    toggleInfo: false
-  }; }
+  data() {
+    return {
+      toggleInfo: false
+    };
+  },
+  methods: {
+    backToLogin() {
+      eventBus.$emit("setView", "Login");
+    }
+  }
 };
 </script>
 
@@ -50,6 +61,23 @@ export default {
   }
 }
 
+.back-to-login {
+  @include flexRow;
+  width: 300px;
+  height: 140px;
+  border-top: 1px dashed #fff;
+
+  button {
+    border: none;
+    border-radius: 5px;
+    padding: 10px 30px;
+    font-size: 20px;
+    background: $colorOne;
+    color: $fontColorOne;
+    cursor: pointer;
+  }
+}
+
 .signup-info {
   margin: 30px 0 20px;
   position: relative;
@@ -68,16 +96,16 @@ export default {
     line-height: 120%;
 
     span {
-    display: block;
-    text-align: left;
+      display: block;
+      text-align: left;
 
-    &:nth-child(2) {
-      margin: 7px 0;
+      &:nth-child(2) {
+        margin: 7px 0;
+      }
     }
   }
-  }
   .toggle-info-enter-active {
-    animation: show-info .1s 1 linear;
+    animation: show-info 0.1s 1 linear;
   }
   @keyframes show-info {
     0% {
@@ -90,7 +118,7 @@ export default {
     }
   }
   .toggle-info-leave-active {
-    animation: hide-info .1s 1 linear;
+    animation: hide-info 0.1s 1 linear;
   }
   @keyframes hide-info {
     0% {
@@ -117,5 +145,4 @@ export default {
     cursor: pointer;
   }
 }
-
 </style>

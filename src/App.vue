@@ -8,19 +8,23 @@
     </transition>
     <div class="loading-container" v-if="loading">
       <h2>Loading</h2>
-      <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
+      <div class="lds-ellipsis">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </div>
 </template>
 
 
 <script>
-import Dashboard from './views/Dashboard';
-import Login from './views/Login';
-import Signup from './views/Signup';
-import Notification from './components/Notification';
-import { eventBus } from './main'
-
+import Dashboard from "./views/Dashboard";
+import Login from "./views/Login";
+import Signup from "./views/Signup";
+import Notification from "./components/Notification";
+import { eventBus } from "./main";
 
 export default {
   components: {
@@ -29,52 +33,76 @@ export default {
     Signup,
     Notification
   },
-  data() { return {
+  data() {
+    return {
       actualView: Login,
       loading: false,
       modal: false,
       mouseDevice: false,
       notification: false,
       notificationInfo: null
-  }},
+    };
+  },
   methods: {
     setView(view) {
-      if(view === 'Login') { this.actualView = Login; }
-      else if(view === 'Dashboard') { this.actualView = Dashboard; }
-      else if(view === 'Signup') { this.actualView = Signup; }
+      if (view === "Login") {
+        this.actualView = Login;
+      } else if (view === "Dashboard") {
+        this.actualView = Dashboard;
+      } else if (view === "Signup") {
+        this.actualView = Signup;
+      }
     },
     checkLogin() {
-      const token = localStorage.getItem('token');
-      const userId = localStorage.getItem('userId');
-      if(token && userId) this.setView('Dashboard');
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
+      if (token && userId) this.setView("Dashboard");
     },
     isTouchscreenDevice() {
-      const isTouchScreen = ( 'ontouchstart' in window ) || ( navigator.maxTouchPoints > 0 ) || ( navigator.msMaxTouchPoints > 0 );
+      const isTouchScreen =
+        "ontouchstart" in window ||
+        navigator.maxTouchPoints > 0 ||
+        navigator.msMaxTouchPoints > 0;
       this.mouseDevice = !isTouchScreen;
     },
     showNotification(info) {
       this.notificationInfo = info;
       this.notification = true;
-      setTimeout(() => { this.notification = false; }, 3000);
+      setTimeout(() => {
+        this.notification = false;
+      }, 3000);
     }
   },
   created() {
-    eventBus.$on('setView', (view) => { this.setView(view); });
-    eventBus.$on('showNotification', info => this.showNotification(info));
-    eventBus.$on('showLoading', () => { this.loading = true; });
-    eventBus.$on('hideLoading', () => { this.loading = false; });
-    eventBus.$on('showGallery', () => { this.modal = true; });
-    eventBus.$on('hideGallery', () => { this.modal = false; });
-    eventBus.$on('showConfirm', () => { this.modal = true; });
-    eventBus.$on('hideConfirm', () => { this.modal = false; });
-    window.loadingScreen.style.display = 'none';
+    eventBus.$on("setView", view => {
+      this.setView(view);
+    });
+    eventBus.$on("showNotification", info => this.showNotification(info));
+    eventBus.$on("showLoading", () => {
+      this.loading = true;
+    });
+    eventBus.$on("hideLoading", () => {
+      this.loading = false;
+    });
+    eventBus.$on("showGallery", () => {
+      this.modal = true;
+    });
+    eventBus.$on("hideGallery", () => {
+      this.modal = false;
+    });
+    eventBus.$on("showConfirm", () => {
+      this.modal = true;
+    });
+    eventBus.$on("hideConfirm", () => {
+      this.modal = false;
+    });
+    window.loadingScreen.style.display = "none";
     this.checkLogin();
   },
   mounted() {
     this.isTouchscreenDevice();
   }
-}
-
+};
 </script>
 
 
@@ -82,14 +110,16 @@ export default {
 @import "./scss/variables.scss";
 @import "./scss/flexMixins.scss";
 
-body::-webkit-scrollbar { background: $colorOne; }
+body::-webkit-scrollbar {
+  background: $colorOne;
+}
 body::-webkit-scrollbar-thumb {
   background: $colorTwo;
   border-radius: 5px;
 }
 
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -100,7 +130,9 @@ body::-webkit-scrollbar-thumb {
   min-height: 100vh;
   @include flexRow(center, flex-start);
 }
-#app.openedModal { height: 100vh; }
+#app.openedModal {
+  height: 100vh;
+}
 
 .main-view {
   width: 100%;
@@ -113,7 +145,7 @@ body::-webkit-scrollbar-thumb {
 #app {
   // toggle view ----------------------
   .toggle-view-enter-active {
-    animation: show-view .1s 1 linear;
+    animation: show-view 0.1s 1 linear;
   }
   @keyframes show-view {
     0% {
@@ -126,7 +158,7 @@ body::-webkit-scrollbar-thumb {
     }
   }
   .toggle-view-leave-active {
-    animation: hide-view .1s 1 linear;
+    animation: hide-view 0.1s 1 linear;
   }
   @keyframes hide-view {
     0% {
@@ -141,7 +173,7 @@ body::-webkit-scrollbar-thumb {
 
   // show notification --------------------
   .show-notification-enter-active {
-    animation: show-notification .1s 1 linear;
+    animation: show-notification 0.1s 1 linear;
   }
   @keyframes show-notification {
     0% {
@@ -152,7 +184,7 @@ body::-webkit-scrollbar-thumb {
     }
   }
   .show-notification-leave-active {
-    animation: hide-notification .1s 1 linear;
+    animation: hide-notification 0.1s 1 linear;
   }
   @keyframes hide-notification {
     0% {
@@ -177,5 +209,4 @@ body::-webkit-scrollbar-thumb {
     font-size: calc(20px + 10vw);
   }
 }
-
 </style>
