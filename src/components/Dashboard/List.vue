@@ -1,41 +1,7 @@
 <template>
   <ul class="file-list">
-    <li v-for="file in files" :key="file.id" :data-id="file.id">
-      <img v-if="file.type === 'image'" :src="file.path" alt="">
-      <i v-else-if="file.type === 'document'" class="fas fa-file-alt fa-4x"></i>
-      <i v-else-if="file.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
-
-      <div class="layout" >
-        <div class="layout-bg-btn" 
-          v-if="file.type === 'image'" 
-          @click="showGallery"></div>
-        <a class="layout-bg-btn" 
-          v-else-if="file.type === 'document'" 
-          :href="file.path"  
-          target="_blank"></a>
-        <a class="layout-bg-btn" 
-          v-else-if="file.type === 'compressed'" 
-          :href="file.path"></a>
-        
-        <h3 :title="file.name">{{ file.name }}</h3>
-        <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
-
-        <a v-if="file.type === 'document'" 
-          :href="file.path" 
-          target="_blank" 
-          class="layout-btn download-btn fa-download fas"></a>
-        <a v-else-if="file.type === 'compressed'" 
-          :href="file.path" 
-          :download="file.name" 
-          class="layout-btn download-btn fa-download fas"></a>
-        <a v-else 
-          :href="file.path" 
-          :download="file.name" 
-          target="_blank" 
-          class="layout-btn download-btn fa-download fas"></a>
-
-        <button @click="editFile" :data-value="file.name" class="layout-btn edit-btn fa-edit fas"></button>
-      </div>
+    <li v-for="file in files" :key="file.id">
+      <ListItem :fileData="file" :data-id="file.id"></ListItem>
     </li>
   </ul>
 </template>
@@ -43,37 +9,13 @@
 <script>
 import { eventBus } from '../../main';
 import { mapState } from 'vuex';
+import ListItem from './ListItem';
 
 export default {
-
-  data() {
-    return {
+  components: { ListItem },
+  data() { return {
       files: []
-    };
-  },
-  methods: {
-    editFile(e) {
-      const fileData = {
-        actionType: 'edit-file',
-        fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value,
-        fileName: e.target.attributes.getNamedItem('data-value').value
-      };
-      eventBus.$emit('showConfirm', fileData);
-    },
-    deleteFile(e) {
-      const fileData = {
-        actionType: 'delete-file',
-        fileId: e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value
-      };
-      eventBus.$emit('showConfirm', fileData);
-    },
-    showGallery(e) {
-      const imageId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
-      const images =  this.$store.state.userFiles.filter(file => file.type === 'image');
-      const index = images.findIndex(img => img.id === imageId);
-      eventBus.$emit('showGallery', index);
-    }
-  },
+  }; },
   computed: mapState(['userFiles']),
   watch: {
     userFiles(newFiles) {
@@ -102,75 +44,7 @@ export default {
   
   li {
     height: 150px;
-    background: $colorOne;
-    @include flexColumn(space-around);
     overflow: hidden;
-    position: relative;
-
-    i { color: $colorTwo; }
-
-    img {
-      max-height: 100%;
-      max-width: 100%
-    }
-
-    .layout {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-
-      .layout-bg-btn {
-        height: 100%;
-        width: 100%;
-        cursor: pointer;
-        display: block;
-      }
-      .layout-btn {
-        @include flexRow;
-        position: absolute;
-        background: rgb(238, 238, 238);
-        color: $fontColorTwo;
-        font-size: 16px;
-        width: 30px;
-        height: 30px;
-        border: none;
-        cursor: pointer;
-      }
-      .delete-btn {
-        top: 0;
-        left: 0;
-        border-bottom-right-radius: 12px;
-        padding: 0 2px 2px 0;
-      }
-      .download-btn {
-        top:0;
-        right: 0;
-        border-bottom-left-radius: 12px;
-        padding: 0 0 2px 2px;
-      }
-      .edit-btn {
-        bottom:0;
-        right: 0;
-        padding-left: 3px;
-      }
-      h3 {
-        width: 100%;
-        height: 30px;
-        position: absolute;
-        bottom:0;
-        left: 0;
-        padding: 7px 32px 8px 5px;
-        font-size: 13px;
-        font-weight: 400;
-        color: $fontColorTwo;
-        white-space: nowrap;
-        text-align: center;
-        text-overflow: ellipsis;
-        user-select: none;
-        overflow: hidden;
-        background: rgba(175, 175, 175, 0.9);
-      }
-    }
   }
 }
 @media screen and (min-width: 1024px) {
@@ -180,19 +54,11 @@ export default {
 
     li:last-child { margin-bottom: 20px; }
   }
-.file-list::-webkit-scrollbar { background: $colorOne; }
-.file-list::-webkit-scrollbar-thumb {
-  background: $colorTwo;
-  border-radius: 5px;
-}
-}
-
-#app.mouseDevice li .layout {
-  height: 140%;
-  transition: height .15s linear;
-}
-#app.mouseDevice li:hover .layout {
-  height: 100%;
+  .file-list::-webkit-scrollbar { background: $colorOne; }
+  .file-list::-webkit-scrollbar-thumb {
+    background: $colorTwo;
+    border-radius: 5px;
+  }
 }
 
 </style>
