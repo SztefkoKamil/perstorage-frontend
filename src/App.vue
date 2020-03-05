@@ -110,6 +110,10 @@ export default {
 @import "./scss/variables.scss";
 @import "./scss/flexMixins.scss";
 
+body {
+  background: #000;
+}
+
 body::-webkit-scrollbar {
   background: $colorOne;
 }
