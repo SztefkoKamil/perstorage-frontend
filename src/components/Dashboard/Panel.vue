@@ -101,7 +101,7 @@ export default {
   transition: transform .2s linear;
 
   &.open {
-    transform: translateY(100px);
+    transform: translateY(90px);
   }
 }
 @media screen and (min-width: 1024px) {
