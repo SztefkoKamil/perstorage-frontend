@@ -40,7 +40,8 @@ export default {
       modal: false,
       mouseDevice: false,
       notification: false,
-      notificationInfo: null
+      notificationInfo: null,
+      notificationTimeout: null
     };
   },
   methods: {
@@ -66,10 +67,12 @@ export default {
       this.mouseDevice = !isTouchScreen;
     },
     showNotification(info) {
+      if(this.notificationTimeout) clearTimeout(this.notificationTimeout);
       this.notificationInfo = info;
       this.notification = true;
-      setTimeout(() => {
+      this.notificationTimeout = setTimeout(() => {
         this.notification = false;
+        this.notificationTimeout = null;
       }, 3000);
     }
   },
