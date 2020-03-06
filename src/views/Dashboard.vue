@@ -3,7 +3,7 @@
     <List></List>
     <Panel></Panel>
     <div v-if="gallery" class="gallery-container" @keydown.esc="hideGallery">
-      <button @click="hideGallery" ref="galleryCloseBtn" class="close-gallery-btn">X</button>
+      <button @click="hideGallery" ref="galleryCloseBtn" class="close-gallery-btn fas fa-times-circle"></button>
       <Gallery :imageIndex="clickedImage"></Gallery>
     </div>
     <div v-if="confirm" class="confirm-container" @click.self="hideConf">
@@ -87,16 +87,26 @@ export default {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 40px;
-    height: 40px;
     z-index: 100;
-    color: #fff;
-    font-size: 24px;
+    color: #000;
+    font-size: 40px;
     font-weight: 700;
     background: #000;
     border: none;
     border-radius: 50%;
     cursor: pointer;
+
+    &::after {
+      content: '';
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      z-index: -2;
+      background: #fff;
+      border-radius: 50%;
+    }
   }
 }
 @media screen and (min-width: 1024px) {
