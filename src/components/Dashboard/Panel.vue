@@ -96,7 +96,7 @@ export default {
   border-bottom: 1px solid $colorTwo;
   border-left: 1px solid $colorTwo;
   position: fixed;
-  top: -100px;
+  top: -90px;
   right: 0px;
   transition: transform .2s linear;
 
@@ -133,8 +133,8 @@ export default {
 
 .upload-blocker {
   position: absolute;
-  top: 56px;
-  left: 150px;
+  top: 50px;
+  left: 146px;
   width: 200px;
   height: 30px;
   cursor: not-allowed;
@@ -142,7 +142,7 @@ export default {
 
 .panel-info {
   position: absolute;
-  top: 100px;
+  top: 90px;
   left: -30px;
   width: 300px;
   @include flexRow;
@@ -156,7 +156,7 @@ export default {
     border-radius: 5px;
     border: 1px solid $colorTwo;
     left: 40px;
-    top: 20px;
+    top: 30px;
     line-height: 120%;
     text-align: left;
     @include flexColumn(center, flex-start);
@@ -182,12 +182,12 @@ export default {
 
   button {
     @include flexRow;
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     background: #fff;
     border: none;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 900;
     line-height: 1;
     color: $colorOne;
@@ -196,19 +196,19 @@ export default {
 }
 
 .toggleBtn-wrapper {
-  width: 20px;
-  height: 20px;
+  width: 30px;
+  height: 30px;
   position: absolute;
   bottom: 0;
   left: 50%;
   transform: translateX(-10px);
 
   #toggleBtn {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     border: none;
     background: transparent;
-    font-size: 20px;
+    font-size: 30px;
     cursor: pointer;
     transition: transform .2s linear;
 
@@ -216,8 +216,8 @@ export default {
   }
   #toggleBtn::after {
     content: "";
-    width: 17px;
-    height: 17px;
+    width: 24px;
+    height: 24px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -235,11 +235,11 @@ export default {
   font-size: 18px;
   user-select: none;
   color: $fontColorOne;
-  padding-right: 5px;
+  padding: 0 5px 5px 0;
   line-height: 100%;
 }
 @media screen and (min-width: 1024px) {
-  .files-counter { padding-right: 20px; }
+  .files-counter { padding-right: 24px; }
 }
 
 </style>

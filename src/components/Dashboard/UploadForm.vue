@@ -30,7 +30,7 @@ export default {
 
 .upload-form {
   @include flexRow;
-  padding: 10px 0;
+  padding: 5px 0;
 
 
   .upload-btn {
