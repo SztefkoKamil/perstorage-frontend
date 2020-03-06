@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{openedModal: modal, openedModal: loading, mouseDevice}">
+  <div id="app" :class="{openedModal: modal || loading, mouseDevice}">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
