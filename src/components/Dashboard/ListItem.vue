@@ -4,7 +4,7 @@
     <i v-else-if="fileData.type === 'document'" class="fas fa-file-alt fa-4x"></i>
     <i v-else-if="fileData.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
     <div class="layout">
-      <div v-if="fileData.type === 'image'" @click="showGallery" class="layout-bg-btn"></div>
+      <button v-if="fileData.type === 'image'" @click="showGallery" class="layout-bg-btn"></button>
       <a v-else :href="fileData.path" target="_blank" class="layout-bg-btn"></a>
       <h3 :title="fileData.name">{{ fileData.name }}</h3>
       <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
@@ -80,8 +80,10 @@ export default {
     .layout-bg-btn {
       height: 100%;
       width: 100%;
-      cursor: pointer;
       display: block;
+      background: transparent;
+      border: none;
+      cursor: pointer;
     }
     .layout-btn {
       @include flexRow;
