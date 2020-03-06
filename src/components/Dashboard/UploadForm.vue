@@ -2,7 +2,7 @@
   <form class="upload-form" @submit.prevent="sendFiles" enctype="multipart/form-data">
     <div class="upload-input">
       <span class="fake-btn">Choose file</span>
-      <input type="file" name="files" multiple @change="addFiles" :disabled="formDisabled">
+      <input type="file" name="files" multiple @change="addFiles" :disabled="formDisabled" ref="inputFile">
     </div>
     <button class="upload-btn" type="submit" :disabled="formDisabled">Upload</button>
   </form>
@@ -18,7 +18,10 @@ export default {
   }; },
   methods: {
     addFiles(e) { this.$store.commit('setFilesToUpload', Array.from(e.target.files)); },
-    sendFiles() { this.$store.dispatch('postFiles'); }
+    sendFiles() {
+      this.$refs.inputFile.value = '';
+      this.$store.dispatch('postFiles');
+    }
   },
   created() { eventBus.$on('disableUploadForm', value => this.formDisabled = value); }
 };
