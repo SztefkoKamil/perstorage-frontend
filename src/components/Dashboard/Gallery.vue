@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
 
 export default {
   components: { swiper, swiperSlide},
@@ -34,8 +34,8 @@ export default {
           type: 'fraction'
         }
       }
-  }}
-}
+  };}
+};
 </script>
 
 <style lang="scss">
@@ -47,6 +47,7 @@ export default {
 
   .swiper-slide {
     @include flexColumn;
+    max-height: 94vh;
 
     img {
       max-width: 100%;
