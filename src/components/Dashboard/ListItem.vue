@@ -1,43 +1,21 @@
 <template>
   <div class="list-item-file">
-    <img v-if="fileData.type === 'image'" :src="fileData.path" alt="">
+    <img v-if="fileData.type === 'image'" :src="fileData.path" alt="" />
     <i v-else-if="fileData.type === 'document'" class="fas fa-file-alt fa-4x"></i>
     <i v-else-if="fileData.type === 'compressed'" class="fas fa-file-archive fa-4x"></i>
-    <!-- layout background button  -->
-    <div class="layout" >
-      <div class="layout-bg-btn" 
-        v-if="fileData.type === 'image'" 
-        @click="showGallery"></div>
-      <a class="layout-bg-btn" 
-        v-else-if="fileData.type === 'document'" 
-        :href="fileData.path"  
-        target="_blank"></a>
-      <a class="layout-bg-btn" 
-        v-else-if="fileData.type === 'compressed'" 
-        :href="fileData.path"></a>
-      <!-- file name -->
+    <div class="layout">
+      <div v-if="fileData.type === 'image'" @click="showGallery" class="layout-bg-btn"></div>
+      <a v-else :href="fileData.path" target="_blank" class="layout-bg-btn"></a>
       <h3 :title="fileData.name">{{ fileData.name }}</h3>
-      <!-- delete button -->
       <button class="layout-btn delete-btn fa-trash-alt fas" @click="deleteFile"></button>
-      <!-- download button -->
-      <a v-if="fileData.type === 'document'" 
-        :href="fileData.path" 
-        target="_blank" 
-        :download="fileData.name" 
-        class="layout-btn download-btn fa-download fas"></a>
-      <a v-else-if="fileData.type === 'compressed'" 
-        :href="fileData.path" 
-        :download="fileData.name" 
-        class="layout-btn download-btn fa-download fas"></a>
-      <a v-else 
-        :href="fileData.path" 
-        :download="fileData.name" 
-        target="_blank" 
-        class="layout-btn download-btn fa-download fas"></a>
-        <!-- edit file name button -->
-      <button @click="editFile" :data-value="fileData.name" class="layout-btn edit-btn fa-edit fas"></button>
+      <button @click="downloadFile" class="layout-btn download-btn fa-download fas"></button>
+      <button
+        @click="editFile"
+        :data-value="fileData.name"
+        class="layout-btn edit-btn fa-edit fas"
+      ></button>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
@@ -46,6 +24,7 @@ import { eventBus } from '../../main';
 export default {
   props: ['fileData'],
   methods: {
+    downloadFile() { this.$store.dispatch('downloadFile', this.fileData); },
     editFile(e) {
       const fileData = {
         actionType: 'edit-file',
@@ -63,7 +42,7 @@ export default {
     },
     showGallery(e) {
       const imageId = e.target.parentNode.parentNode.attributes.getNamedItem('data-id').value;
-      const images =  this.$store.state.userFiles.filter(file => file.type === 'image');
+      const images = this.$store.state.userFiles.filter(file => file.type === 'image');
       const index = images.findIndex(img => img.id === imageId);
       eventBus.$emit('showGallery', index);
     }
@@ -72,24 +51,25 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/flexMixins.scss";
-@import "../../scss/variables.scss";
+@import '../../scss/flexMixins.scss';
+@import '../../scss/variables.scss';
 
 .list-item-file {
-    @include flexColumn(space-around);
-    position: relative;
-    height: 100%;
-    width: 100%;
-    max-width: 300px;
-    background: $colorOne;
-    margin: 0 auto;
+  @include flexColumn(space-around);
+  position: relative;
+  height: 100%;
+  width: 100%;
+  max-width: 300px;
+  background: $colorOne;
+  margin: 0 auto;
 
-
-  i { color: $colorTwo; }
+  i {
+    color: $colorTwo;
+  }
 
   img {
     max-height: 100%;
-    max-width: 100%
+    max-width: 100%;
   }
 
   .layout {
@@ -121,13 +101,13 @@ export default {
       padding: 0 2px 2px 0;
     }
     .download-btn {
-      top:0;
+      top: 0;
       right: 0;
       border-bottom-left-radius: 12px;
       padding: 0 0 2px 2px;
     }
     .edit-btn {
-      bottom:0;
+      bottom: 0;
       right: 0;
       padding-left: 3px;
     }
@@ -135,7 +115,7 @@ export default {
       width: 100%;
       height: 30px;
       position: absolute;
-      bottom:0;
+      bottom: 0;
       left: 0;
       padding: 7px 32px 8px 5px;
       font-size: 13px;
@@ -153,10 +133,9 @@ export default {
 
 #app.mouseDevice .list-item-file .layout {
   height: 140%;
-  transition: height .15s linear;
+  transition: height 0.15s linear;
 }
 #app.mouseDevice .list-item-file:hover .layout {
   height: 100%;
 }
-
 </style>

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import downloadjs from 'downloadjs';
 import secret from '../../secret';
 import { eventBus } from '../main';
 
@@ -101,6 +102,26 @@ export default new Vuex.Store({
         context.state.userFiles = [...context.state.userFiles, ...result.addedFiles];
 
       } catch (err) { console.log(err.message); }
+    },
+    downloadFile: async (context, fileData) => {
+      eventBus.$emit('showLoading');
+      const token = localStorage.getItem('token');
+      const url = secret.mainRoute + secret.downloadFile + fileData.id;
+      const config = { headers: { Authorization: 'Bearer ' + token } };
+
+      try {
+        const response = await fetch(url, config);
+        const newResponse = new Response(response.body);
+        const blob = await newResponse.blob();
+        downloadjs(blob, fileData.name);
+        eventBus.$emit('hideLoading');
+
+      } catch (err) {
+        const result = { message: 'Sorry, can\'t download a file - browser error.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     editFile: async (context, data) => {
       eventBus.$emit('hideConfirm');
