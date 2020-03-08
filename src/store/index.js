@@ -57,15 +57,17 @@ export default new Vuex.Store({
 
         const response = await fetch(route, config);
         const result = await response.json();
+        if(response.status !== 200) throw new Error(result.message);
+        
         context.state.userFiles = result;
         eventBus.$emit('hideLoading');
         eventBus.$emit('filesFetched');
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     postFiles: async (context) => {
@@ -90,12 +92,7 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 201) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('Files uploading filed');
-        }
+        if(response.status !== 201) throw new Error(result.message);
 
         eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
@@ -107,10 +104,10 @@ export default new Vuex.Store({
         context.state.userFiles = [...context.state.userFiles, ...result.addedFiles];
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     downloadFile: async (context, fileData) => {
@@ -129,11 +126,11 @@ export default new Vuex.Store({
         eventBus.$emit('hideLoading');
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
-        if(browserError) result.message = 'Sorry, can\'t download a file - browser error.';
+        err.error = true;
+        if(browserError) err.message = 'Sorry, can\'t download a file - browser error.';
+        else err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     editFile: async (context, data) => {
@@ -153,12 +150,7 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 202) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('File updating filed');
-        }
+        if(response.status !== 202) throw new Error(result.message);
 
         eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
@@ -168,10 +160,10 @@ export default new Vuex.Store({
         });
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     deleteFile: async (context, fileId) => {
@@ -187,12 +179,7 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 202) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('File deleting failed');
-        }
+        if(response.status !== 202) throw new Error(result.message);
 
         eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
@@ -200,10 +187,10 @@ export default new Vuex.Store({
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     deleteUser: async () => {
@@ -222,12 +209,7 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 202) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('User delete failed');
-        }
+        if(response.status !== 202) throw new Error(result.message);
 
         localStorage.removeItem('token');
         localStorage.removeItem('userId');
@@ -235,10 +217,10 @@ export default new Vuex.Store({
         eventBus.$emit('setView', 'Login');
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     postLogin: async (context, user) => {
@@ -253,22 +235,17 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 202) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('Login failed');
-        }
+        if(response.status !== 202) throw new Error(result.message);
         
         localStorage.setItem('token', result.token);
         localStorage.setItem('userId', result.userId);
         eventBus.$emit('setView', 'Dashboard');
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     },
     postSignup: async (context, newUser) => {
@@ -283,21 +260,16 @@ export default new Vuex.Store({
       try {
         const response = await fetch(route, config);
         const result = await response.json();
-        if(response.status !== 201) {
-          result.error = true;
-          eventBus.$emit('hideLoading');
-          eventBus.$emit('showNotification', result);
-          throw new Error('Signup failed');
-        }
+        if(response.status !== 201) throw new Error(result.message);
         
         eventBus.$emit('hideLoading');
         eventBus.$emit('setView', 'Login');
 
       } catch (err) {
-        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        err.error = true;
+        if(!err.message || err.message === 'Failed to fetch') err.message = 'Sorry, server error. Try again in 5 min.';
         eventBus.$emit('hideLoading');
-        eventBus.$emit('showNotification', result);
-        console.log(err.message);
+        eventBus.$emit('showNotification', err);
       }
     }
   }
