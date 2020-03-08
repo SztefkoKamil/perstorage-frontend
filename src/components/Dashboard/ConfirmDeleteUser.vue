@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="deleteUser" class="delete-file-wrapper">
+    <form @submit.prevent="deleteUser" @keydown.esc="hideConfirm" class="delete-file-wrapper">
       <h4>Sure to delete Your account?</h4>
       <div class="buttons">
         <button @click="hideConfirm" ref="cancelBtn" type="button">Cancel</button>

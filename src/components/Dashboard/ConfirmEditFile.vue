@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="changeName" class="edit-file-wrapper">
+  <form @submit.prevent="changeName" @keydown.esc="hideConfirm" class="edit-file-wrapper">
     <h4>Change name of the file</h4>
     <input type="text" v-model="fileName" ref="editNameInput" />
     <div class="buttons">

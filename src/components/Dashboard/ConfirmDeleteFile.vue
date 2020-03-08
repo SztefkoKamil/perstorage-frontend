@@ -1,5 +1,5 @@
 <template>
-    <form @submit.prevent="deleteFile" class="delete-file-wrapper">
+    <form @submit.prevent="deleteFile" @keydown.esc="hideConfirm" class="delete-file-wrapper">
       <h4>Delete file {{ file.name }}?</h4>
       <div class="buttons">
         <button @click="hideConfirm" ref="cancelBtn" type="button">Cancel</button>
