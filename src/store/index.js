@@ -61,7 +61,12 @@ export default new Vuex.Store({
         eventBus.$emit('hideLoading');
         eventBus.$emit('filesFetched');
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     postFiles: async (context) => {
       eventBus.$emit('showLoading');
@@ -101,23 +106,31 @@ export default new Vuex.Store({
 
         context.state.userFiles = [...context.state.userFiles, ...result.addedFiles];
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     downloadFile: async (context, fileData) => {
       eventBus.$emit('showLoading');
       const token = localStorage.getItem('token');
       const url = secret.mainRoute + secret.downloadFile + fileData.id;
       const config = { headers: { Authorization: 'Bearer ' + token } };
+      let browserError = null;
 
       try {
         const response = await fetch(url, config);
+        if (response.status === 200) browserError = true;
         const newResponse = new Response(response.body);
         const blob = await newResponse.blob();
         downloadjs(blob, fileData.name);
         eventBus.$emit('hideLoading');
 
       } catch (err) {
-        const result = { message: 'Sorry, can\'t download a file - browser error.', error: true };
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        if(browserError) result.message = 'Sorry, can\'t download a file - browser error.';
         eventBus.$emit('hideLoading');
         eventBus.$emit('showNotification', result);
         console.log(err.message);
@@ -154,7 +167,12 @@ export default new Vuex.Store({
           if(file.id === data.id) file.name = data.name + data.ext;
         });
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     deleteFile: async (context, fileId) => {
       eventBus.$emit('hideConfirm');
@@ -181,7 +199,12 @@ export default new Vuex.Store({
 
         context.state.userFiles = context.state.userFiles.filter(file => file.id !== fileId );
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     deleteUser: async () => {
       eventBus.$emit('hideConfirm');
@@ -211,7 +234,12 @@ export default new Vuex.Store({
         eventBus.$emit('hideLoading');
         eventBus.$emit('setView', 'Login');
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     postLogin: async (context, user) => {
       eventBus.$emit('showLoading');
@@ -236,7 +264,12 @@ export default new Vuex.Store({
         localStorage.setItem('userId', result.userId);
         eventBus.$emit('setView', 'Dashboard');
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     },
     postSignup: async (context, newUser) => {
       eventBus.$emit('showLoading');
@@ -260,7 +293,12 @@ export default new Vuex.Store({
         eventBus.$emit('hideLoading');
         eventBus.$emit('setView', 'Login');
 
-      } catch (err) { console.log(err.message); }
+      } catch (err) {
+        const result = { message: 'Sorry, server error. Try again in 5 min.', error: true };
+        eventBus.$emit('hideLoading');
+        eventBus.$emit('showNotification', result);
+        console.log(err.message);
+      }
     }
   }
 });
