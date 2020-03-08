@@ -1,23 +1,25 @@
 <template>
-    <form @submit.prevent="changeName" class="edit-file-wrapper">
-      <h4>Change name of the file</h4>
-      <input type="text" v-model="fileName" ref="editNameInput">
-      <div class="buttons">
-        <button @click="hideConfirm" type="button">Cancel</button>
-        <button>Change name</button>
-      </div>
-    </form>
+  <form @submit.prevent="changeName" class="edit-file-wrapper">
+    <h4>Change name of the file</h4>
+    <input type="text" v-model="fileName" ref="editNameInput" />
+    <div class="buttons">
+      <button @click="hideConfirm" type="button">Cancel</button>
+      <button>Change name</button>
+    </div>
+  </form>
 </template>
 
 <script>
-import { eventBus } from '../../main';
+import { eventBus } from "../../main";
 
 export default {
-  props: ['data'],
-  data() { return {
-    fileName: null,
-    fileExt: null
-  }},
+  props: ["data"],
+  data() {
+    return {
+      fileName: null,
+      fileExt: null
+    };
+  },
   methods: {
     changeName() {
       const newFile = {
@@ -25,17 +27,17 @@ export default {
         name: this.fileName,
         ext: this.fileExt
       };
-      this.$store.dispatch('editFile', newFile);
+      if (this.data.fileName !== newFile.name + newFile.ext)
+        this.$store.dispatch("editFile", newFile);
+      else eventBus.$emit("hideConfirm");
     },
     hideConfirm() {
-      eventBus.$emit('hideConfirm');
+      eventBus.$emit("hideConfirm");
     },
     divideName() {
-      const dotIndex = this.data.fileName.lastIndexOf('.');
-      const name = this.data.fileName.slice(0, dotIndex);
-      this.fileName = name;
-      const ext = this.data.fileName.slice(dotIndex);
-      this.fileExt = ext;
+      const dotIndex = this.data.fileName.lastIndexOf(".");
+      this.fileName = this.data.fileName.slice(0, dotIndex);
+      this.fileExt = this.data.fileName.slice(dotIndex);
     }
   },
   created() {
@@ -44,7 +46,7 @@ export default {
   mounted() {
     this.$refs.editNameInput.focus();
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -57,5 +59,4 @@ export default {
     text-align: center;
   }
 }
-
 </style>
