@@ -1,5 +1,5 @@
 <template>
-  <div class="signup main-view">
+  <div class="signup main-view" @keydown.esc="closePolicy">
     <h1>Signup to Perstorage</h1>
     <div class="signup-info">
       <transition name="toggle-info">
@@ -15,34 +15,101 @@
     <div class="back-to-login">
       <button @click="backToLogin">Login</button>
     </div>
+    <div v-if="showPolicy" class="privacy-policy-container">
+      <button
+        @click="closePolicy"
+        ref="policyCloseBtn"
+        class="close-policy-btn fas fa-times-circle"
+      ></button>
+      <div class="content-wrapper">
+        <h3>Privacy Policy</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id beatae dicta harum quaerat
+          optio voluptates reprehenderit sunt sed odit, expedita hic, et quos dolore illo obcaecati.
+          Minus perferendis dolorum corporis! Totam magnam nulla labore veritatis tempora recusandae
+          libero deleniti? Dolor rerum cumque ullam nesciunt dicta ea, quos vel nostrum debitis
+          minus quas nemo quam consectetur necessitatibus, impedit aspernatur odit non. Quasi
+          repellendus quod eveniet eligendi consectetur. Explicabo reprehenderit sunt ex recusandae
+          rerum alias ut, maiores laborum quas quasi, ad inventore. Voluptatibus recusandae
+          doloremque molestias qui quasi nemo commodi beatae corrupti.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id beatae dicta harum quaerat
+          optio voluptates reprehenderit sunt sed odit, expedita hic, et quos dolore illo obcaecati.
+          Minus perferendis dolorum corporis! Totam magnam nulla labore veritatis tempora recusandae
+          libero deleniti? Dolor rerum cumque ullam nesciunt dicta ea, quos vel nostrum debitis
+          minus quas nemo quam consectetur necessitatibus, impedit aspernatur odit non. Quasi
+          repellendus quod eveniet eligendi consectetur. Explicabo reprehenderit sunt ex recusandae
+          rerum alias ut, maiores laborum quas quasi, ad inventore. Voluptatibus recusandae
+          doloremque molestias qui quasi nemo commodi beatae corrupti.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id beatae dicta harum quaerat
+          optio voluptates reprehenderit sunt sed odit, expedita hic, et quos dolore illo obcaecati.
+          Minus perferendis dolorum corporis! Totam magnam nulla labore veritatis tempora recusandae
+          libero deleniti? Dolor rerum cumque ullam nesciunt dicta ea, quos vel nostrum debitis
+          minus quas nemo quam consectetur necessitatibus, impedit aspernatur odit non. Quasi
+          repellendus quod eveniet eligendi consectetur. Explicabo reprehenderit sunt ex recusandae
+          rerum alias ut, maiores laborum quas quasi, ad inventore. Voluptatibus recusandae
+          doloremque molestias qui quasi nemo commodi beatae corrupti.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Id beatae dicta harum quaerat
+          optio voluptates reprehenderit sunt sed odit, expedita hic, et quos dolore illo obcaecati.
+          Minus perferendis dolorum corporis! Totam magnam nulla labore veritatis tempora recusandae
+          libero deleniti? Dolor rerum cumque ullam nesciunt dicta ea, quos vel nostrum debitis
+          minus quas nemo quam consectetur necessitatibus, impedit aspernatur odit non. Quasi
+          repellendus quod eveniet eligendi consectetur. Explicabo reprehenderit sunt ex recusandae
+          rerum alias ut, maiores laborum quas quasi, ad inventore. Voluptatibus recusandae
+          doloremque molestias qui quasi nemo commodi beatae corrupti.
+        </p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import SignupForm from "../components/Signup/SignupForm";
-import { eventBus } from "../main";
+import SignupForm from '../components/Signup/SignupForm';
+import { eventBus } from '../main';
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
     SignupForm
   },
   data() {
     return {
-      toggleInfo: false
+      toggleInfo: false,
+      showPolicy: false
     };
   },
   methods: {
     backToLogin() {
-      eventBus.$emit("setView", "Login");
+      eventBus.$emit('setView', 'Login');
+    },
+    closePolicy() {
+      eventBus.$emit('hidePolicy');
     }
+  },
+  watch: {
+    showPolicy(newValue) {
+      if (newValue) this.$nextTick(() => this.$refs.policyCloseBtn.focus());
+    }
+  },
+  created() {
+    eventBus.$on('showPolicy', () => {
+      this.showPolicy = true;
+    });
+    eventBus.$on('hidePolicy', () => {
+      this.showPolicy = false;
+    });
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../scss/variables.scss";
-@import "../scss/flexMixins.scss";
+@import '../scss/variables.scss';
+@import '../scss/flexMixins.scss';
 
 .signup {
   h1 {
@@ -143,6 +210,62 @@ export default {
     color: $colorOne;
     line-height: 1;
     cursor: pointer;
+  }
+}
+
+.privacy-policy-container {
+  @include flexRow(center, flex-start);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: hsl(0, 0%, 13%);
+  padding: 100px 30px;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    background: $colorOne;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $colorTwo;
+    border-radius: 5px;
+  }
+
+  .content-wrapper {
+    max-width: 1024px;
+  }
+
+  p {
+    margin: 20px 0 0;
+    text-align: justify;
+    line-height: 1.3;
+  }
+
+  .close-policy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 100;
+    color: #000;
+    font-size: 40px;
+    font-weight: 700;
+    background: #000;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      z-index: -2;
+      background: #fff;
+      border-radius: 50%;
+    }
   }
 }
 </style>

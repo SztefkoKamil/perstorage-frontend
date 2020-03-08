@@ -1,5 +1,5 @@
 <template>
-  <div id="app" :class="{openedModal: modal || loading, mouseDevice}">
+  <div id="app" :class="{ openedModal: modal || loading, mouseDevice }">
     <transition name="toggle-view" mode="out-in">
       <component :is="actualView"></component>
     </transition>
@@ -18,13 +18,12 @@
   </div>
 </template>
 
-
 <script>
-import Dashboard from "./views/Dashboard";
-import Login from "./views/Login";
-import Signup from "./views/Signup";
-import Notification from "./components/Notification";
-import { eventBus } from "./main";
+import Dashboard from './views/Dashboard';
+import Login from './views/Login';
+import Signup from './views/Signup';
+import Notification from './components/Notification';
+import { eventBus } from './main';
 
 export default {
   components: {
@@ -46,28 +45,26 @@ export default {
   },
   methods: {
     setView(view) {
-      if (view === "Login") {
+      if (view === 'Login') {
         this.actualView = Login;
-      } else if (view === "Dashboard") {
+      } else if (view === 'Dashboard') {
         this.actualView = Dashboard;
-      } else if (view === "Signup") {
+      } else if (view === 'Signup') {
         this.actualView = Signup;
       }
     },
     checkLogin() {
-      const token = localStorage.getItem("token");
-      const userId = localStorage.getItem("userId");
-      if (token && userId) this.setView("Dashboard");
+      const token = localStorage.getItem('token');
+      const userId = localStorage.getItem('userId');
+      if (token && userId) this.setView('Dashboard');
     },
     isTouchscreenDevice() {
       const isTouchScreen =
-        "ontouchstart" in window ||
-        navigator.maxTouchPoints > 0 ||
-        navigator.msMaxTouchPoints > 0;
+        'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
       this.mouseDevice = !isTouchScreen;
     },
     showNotification(info) {
-      if(this.notificationTimeout) clearTimeout(this.notificationTimeout);
+      if (this.notificationTimeout) clearTimeout(this.notificationTimeout);
       this.notificationInfo = info;
       this.notification = true;
       this.notificationTimeout = setTimeout(() => {
@@ -77,29 +74,35 @@ export default {
     }
   },
   created() {
-    eventBus.$on("setView", view => {
+    eventBus.$on('setView', view => {
       this.setView(view);
     });
-    eventBus.$on("showNotification", info => this.showNotification(info));
-    eventBus.$on("showLoading", () => {
+    eventBus.$on('showNotification', info => this.showNotification(info));
+    eventBus.$on('showLoading', () => {
       this.loading = true;
     });
-    eventBus.$on("hideLoading", () => {
+    eventBus.$on('hideLoading', () => {
       this.loading = false;
     });
-    eventBus.$on("showGallery", () => {
+    eventBus.$on('showGallery', () => {
       this.modal = true;
     });
-    eventBus.$on("hideGallery", () => {
+    eventBus.$on('hideGallery', () => {
       this.modal = false;
     });
-    eventBus.$on("showConfirm", () => {
+    eventBus.$on('showPolicy', () => {
       this.modal = true;
     });
-    eventBus.$on("hideConfirm", () => {
+    eventBus.$on('hidePolicy', () => {
       this.modal = false;
     });
-    window.loadingScreen.style.display = "none";
+    eventBus.$on('showConfirm', () => {
+      this.modal = true;
+    });
+    eventBus.$on('hideConfirm', () => {
+      this.modal = false;
+    });
+    window.loadingScreen.style.display = 'none';
     this.checkLogin();
   },
   mounted() {
@@ -108,10 +111,9 @@ export default {
 };
 </script>
 
-
 <style lang="scss">
-@import "./scss/variables.scss";
-@import "./scss/flexMixins.scss";
+@import './scss/variables.scss';
+@import './scss/flexMixins.scss';
 
 body {
   background: #000;
@@ -126,7 +128,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;

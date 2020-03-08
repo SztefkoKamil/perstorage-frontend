@@ -1,22 +1,24 @@
 <template>
   <form class="signup-form" @submit.prevent="goSignup">
     <label for="signup-name">name</label>
-    <input type="text" id="signup-name" required v-model="name">
+    <input type="text" id="signup-name" required v-model="name" />
     <label for="signup-email">email</label>
-    <input type="text" id="signup-email" required v-model="email">
+    <input type="email" id="signup-email" required v-model="email" />
     <label for="signup-pass1">password</label>
-    <input type="password" id="signup-pass1" required minlength="6" v-model="password1">
+    <input type="password" id="signup-pass1" required minlength="6" v-model="password1" />
     <label for="signup-pass2">confirm password</label>
-    <input type="password" id="signup-pass2" required minlength="6" v-model="password2">
+    <input type="password" id="signup-pass2" required minlength="6" v-model="password2" />
     <div class="terms">
-      <input type="checkbox" id="signup-terms" required v-model="policy">
-      <label for="signup-terms">Read & accept <button>privacy policy</button></label>
+      <input type="checkbox" id="signup-terms" required v-model="policy" />
+      <label for="signup-terms"
+        >Read & accept <button @click="showPolicy" type="button">privacy policy</button></label
+      >
     </div>
-    <vue-recaptcha 
-      class="recaptcha-container" 
-      sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5" 
-      :loadRecaptchaScript="true" 
-      @verify="recaptchaVerify" 
+    <vue-recaptcha
+      class="recaptcha-container"
+      sitekey="6LfpPckUAAAAAEmT6OTSVf2XiTZlxBTOFP7HCfj5"
+      :loadRecaptchaScript="true"
+      @verify="recaptchaVerify"
       @expired="recaptchaExpired"
     ></vue-recaptcha>
     <button class="signup-form-btn" type="submit">Submit</button>
@@ -25,25 +27,31 @@
 
 <script>
 import VueRecaptcha from 'vue-recaptcha';
+import { eventBus } from '../../main';
 
 export default {
   name: 'login',
   components: { VueRecaptcha },
-  data() { return {
-    name: '',
-    email:'',
-    password1: '',
-    password2: '',
-    policy: false,
-    recpatcha: false
-  }; },
+  data() {
+    return {
+      name: '',
+      email: '',
+      password1: '',
+      password2: '',
+      policy: false,
+      recpatcha: false
+    };
+  },
   methods: {
+    showPolicy() {
+      eventBus.$emit('showPolicy');
+    },
     goSignup() {
-      if(this.password1 !== this.password2) {
+      if (this.password1 !== this.password2) {
         console.log('Please confirm password');
         return null;
       }
-      if(!this.recpatcha) {
+      if (!this.recpatcha) {
         console.log('Please confirm recaptcha');
         return null;
       }
@@ -51,20 +59,24 @@ export default {
       const newUser = {
         name: this.name,
         email: this.email,
-        password: this.password1,
+        password: this.password1
       };
-      
+
       this.$store.dispatch('postSignup', newUser);
     },
-    recaptchaVerify() { this.recpatcha = true; },
-    recaptchaExpired() { this.recpatcha = false; }
+    recaptchaVerify() {
+      this.recpatcha = true;
+    },
+    recaptchaExpired() {
+      this.recpatcha = false;
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../scss/variables.scss";
-@import "../../scss/flexMixins.scss";
+@import '../../scss/variables.scss';
+@import '../../scss/flexMixins.scss';
 
 .signup-form {
   @include flexColumn;
@@ -73,9 +85,9 @@ export default {
   label {
     text-align: left;
     font-size: 18px;
-    margin: 20px 0 2px;;
+    margin: 20px 0 2px;
   }
-  &>input {
+  & > input {
     width: 300px;
     font-size: 18px;
     color: $colorOne;
@@ -124,5 +136,4 @@ export default {
     cursor: pointer;
   }
 }
-
 </style>
