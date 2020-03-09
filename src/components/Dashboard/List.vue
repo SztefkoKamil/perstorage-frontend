@@ -35,12 +35,13 @@ export default {
 
 .file-list {
   width: 100%;
+  min-height: 250px;
   list-style-type: none;
   --auto-grid-min-size: 12rem;
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(var(--auto-grid-min-size), 1fr));
 	grid-gap: 0.8rem;
-  padding: 30px 20px;
+  padding: 50px 20px 30px;
   
   li {
     height: 150px;
