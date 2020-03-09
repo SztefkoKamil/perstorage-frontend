@@ -1,18 +1,19 @@
 <template>
   <form class="signup-form" @submit.prevent="goSignup">
     <label for="signup-name">name</label>
-    <input type="text" id="signup-name" required v-model="name" />
+    <input type="text" id="signup-name" required minlength="2" v-model="name">
     <label for="signup-email">email</label>
-    <input type="email" id="signup-email" required v-model="email" />
+    <input type="email" id="signup-email" required v-model="email">
     <label for="signup-pass1">password</label>
-    <input type="password" id="signup-pass1" required minlength="6" v-model="password1" />
+    <input type="password" id="signup-pass1" required minlength="6" v-model="password1">
     <label for="signup-pass2">confirm password</label>
-    <input type="password" id="signup-pass2" required minlength="6" v-model="password2" />
-    <div class="terms">
-      <input type="checkbox" id="signup-terms" required v-model="policy" />
-      <label for="signup-terms"
-        >Read & accept <button @click="showPolicy" type="button">privacy policy</button></label
-      >
+    <input type="password" id="signup-pass2" ref="pass2" required v-model="password2" @keyup="confirmPassword">
+    <div class="policy">
+      <input type="checkbox" id="signup-policy" required v-model="policy">
+      <label for="signup-policy">
+        <span>Read & accept </span>
+        <button @click="showPolicy" type="button">privacy policy</button>
+      </label>
     </div>
     <vue-recaptcha
       class="recaptcha-container"
@@ -21,6 +22,7 @@
       @verify="recaptchaVerify"
       @expired="recaptchaExpired"
     ></vue-recaptcha>
+    <input type="checkbox" required v-model="recaptcha" class="recaptcha-input">
     <button class="signup-form-btn" type="submit">Submit</button>
   </form>
 </template>
@@ -39,36 +41,30 @@ export default {
       password1: '',
       password2: '',
       policy: false,
-      recpatcha: false
+      recaptcha: false
     };
   },
   methods: {
     showPolicy() {
       eventBus.$emit('showPolicy');
     },
+    confirmPassword() {
+      if (this.password1 === this.password2) this.$refs.pass2.setCustomValidity('');
+      else this.$refs.pass2.setCustomValidity('Passwords Don\'t Match');
+    },
     goSignup() {
-      if (this.password1 !== this.password2) {
-        console.log('Please confirm password');
-        return null;
-      }
-      if (!this.recpatcha) {
-        console.log('Please confirm recaptcha');
-        return null;
-      }
-
       const newUser = {
         name: this.name,
         email: this.email,
         password: this.password1
       };
-
       this.$store.dispatch('postSignup', newUser);
     },
     recaptchaVerify() {
-      this.recpatcha = true;
+      this.recaptcha = true;
     },
     recaptchaExpired() {
-      this.recpatcha = false;
+      this.recaptcha = false;
     }
   }
 };
@@ -98,7 +94,7 @@ export default {
     border: 2px solid $colorOne;
   }
 
-  .terms {
+  .policy {
     margin: 50px 0;
 
     input {
@@ -125,8 +121,14 @@ export default {
     border-radius: 5px;
   }
 
+  .recaptcha-input {
+    position: relative;
+    bottom: 15px;
+    z-index: -2;
+  }
+
   .signup-form-btn {
-    margin-top: 50px;
+    margin-top: 40px;
     border: 2px solid $colorOne;
     border-radius: 5px;
     padding: 10px 30px;
