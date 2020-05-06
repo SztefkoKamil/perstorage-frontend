@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import downloadjs from 'downloadjs';
 import secret from '../../secret';
-import { eventBus } from '../main';
+import eventBus from '../eventBus';
 
 Vue.use(Vuex);
 

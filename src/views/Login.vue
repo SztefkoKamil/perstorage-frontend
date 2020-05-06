@@ -16,7 +16,7 @@
 
 <script>
 import LoginForm from '../components/Login/LoginForm';
-import { eventBus } from '../main';
+import eventBus from '../eventBus';
 
 export default {
   name: 'login',

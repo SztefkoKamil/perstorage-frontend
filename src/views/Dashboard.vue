@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { eventBus } from '../main';
+import eventBus from '../eventBus';
 import Panel from '../components/Dashboard/Panel';
 import List from '../components/Dashboard/List';
 import Gallery from '../components/Dashboard/Gallery';

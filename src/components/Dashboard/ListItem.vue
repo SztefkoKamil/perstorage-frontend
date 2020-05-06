@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { eventBus } from '../../main';
+import eventBus from '../../eventBus';
 
 export default {
   props: ['fileData'],
