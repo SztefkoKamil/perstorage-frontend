@@ -1,30 +1,31 @@
 <template>
   <form class="login-form" @submit.prevent="goLogin">
     <label for="login-email">email</label>
-    <input type="email" name="" id="login-email" required v-model="email">
+    <input type="email" name="" id="login-email" required v-model="email" />
     <label for="login-pass">password</label>
-    <input type="password" name="" id="login-pass" minlength="6" required v-model="password">
+    <input type="password" name="" id="login-pass" minlength="6" required v-model="password" />
     <button type="submit">Login</button>
   </form>
 </template>
 
 <script>
-
 export default {
   name: 'login',
-  data() { return {
-    email: '',
-    password: ''
-  }; },
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
   methods: {
     goLogin() {
       const user = {
         email: this.email,
-        password: this.password
+        password: this.password,
       };
       this.$store.dispatch('postLogin', user);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -40,7 +41,7 @@ export default {
   label {
     text-align: left;
     font-size: 18px;
-    margin: 20px 0 2px;;
+    margin: 20px 0 2px;
   }
   input {
     width: 300px;
@@ -63,5 +64,4 @@ export default {
     cursor: pointer;
   }
 }
-
 </style>
