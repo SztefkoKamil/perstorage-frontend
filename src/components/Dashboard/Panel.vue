@@ -31,7 +31,7 @@
 
 <script>
 import UploadForm from './UploadForm';
-import { eventBus } from '../../main';
+import eventBus from '../../eventBus';
 import { mapState } from 'vuex';
 
 export default {

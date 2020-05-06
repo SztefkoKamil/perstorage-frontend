@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import { eventBus } from '../../main';
+import eventBus from '../../eventBus';
 import { mapState } from 'vuex';
 import ListItem from './ListItem';
 

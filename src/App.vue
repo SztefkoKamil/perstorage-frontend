@@ -23,14 +23,14 @@ import Dashboard from './views/Dashboard';
 import Login from './views/Login';
 import Signup from './views/Signup';
 import Notification from './components/Notification';
-import { eventBus } from './main';
+import eventBus from './eventBus';
 
 export default {
   components: {
     Dashboard,
     Login,
     Signup,
-    Notification
+    Notification,
   },
   data() {
     return {
@@ -40,7 +40,7 @@ export default {
       mouseDevice: false,
       notification: false,
       notificationInfo: null,
-      notificationTimeout: null
+      notificationTimeout: null,
     };
   },
   methods: {
@@ -71,7 +71,7 @@ export default {
         this.notification = false;
         this.notificationTimeout = null;
       }, 3000);
-    }
+    },
   },
   created() {
     eventBus.$on('setView', view => {
@@ -107,7 +107,7 @@ export default {
   },
   mounted() {
     this.isTouchscreenDevice();
-  }
+  },
 };
 </script>
 

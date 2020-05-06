@@ -1,18 +1,25 @@
 <template>
   <form class="signup-form" @submit.prevent="goSignup">
     <label for="signup-name">name</label>
-    <input type="text" id="signup-name" required minlength="2" v-model="name">
+    <input type="text" id="signup-name" required minlength="2" v-model="name" />
     <label for="signup-email">email</label>
-    <input type="email" id="signup-email" required v-model="email">
+    <input type="email" id="signup-email" required v-model="email" />
     <label for="signup-pass1">password</label>
-    <input type="password" id="signup-pass1" required minlength="6" v-model="password1">
+    <input type="password" id="signup-pass1" required minlength="6" v-model="password1" />
     <label for="signup-pass2">confirm password</label>
-    <input type="password" id="signup-pass2" ref="pass2" required v-model="password2" @keyup="confirmPassword">
+    <input
+      type="password"
+      id="signup-pass2"
+      ref="pass2"
+      required
+      v-model="password2"
+      @keyup="confirmPassword"
+    />
     <div class="policy">
-      <input type="checkbox" id="signup-policy" required v-model="policy">
+      <input type="checkbox" id="signup-policy" required v-model="policy" />
       <label for="signup-policy">
         <span>Read & accept </span>
-        <button @click="showPolicy" type="button">privacy policy</button>
+        <button @click="showPolicy" type="button" id="show-policy-btn">privacy policy</button>
       </label>
     </div>
     <vue-recaptcha
@@ -22,14 +29,14 @@
       @verify="recaptchaVerify"
       @expired="recaptchaExpired"
     ></vue-recaptcha>
-    <input type="checkbox" required v-model="recaptcha" class="recaptcha-input">
-    <button class="signup-form-btn" type="submit">Submit</button>
+    <input type="checkbox" required v-model="recaptcha" class="recaptcha-input" />
+    <button class="signup-form-btn" id="signup-submit" type="submit">Submit</button>
   </form>
 </template>
 
 <script>
 import VueRecaptcha from 'vue-recaptcha';
-import { eventBus } from '../../main';
+import eventBus from '../../eventBus';
 
 export default {
   name: 'login',
@@ -41,7 +48,7 @@ export default {
       password1: '',
       password2: '',
       policy: false,
-      recaptcha: false
+      recaptcha: false,
     };
   },
   methods: {
@@ -50,13 +57,13 @@ export default {
     },
     confirmPassword() {
       if (this.password1 === this.password2) this.$refs.pass2.setCustomValidity('');
-      else this.$refs.pass2.setCustomValidity('Passwords Don\'t Match');
+      else this.$refs.pass2.setCustomValidity("Passwords Don't Match");
     },
     goSignup() {
       const newUser = {
         name: this.name,
         email: this.email,
-        password: this.password1
+        password: this.password1,
       };
       this.$store.dispatch('postSignup', newUser);
     },
@@ -65,8 +72,8 @@ export default {
     },
     recaptchaExpired() {
       this.recaptcha = false;
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -70,7 +70,7 @@
 
 <script>
 import SignupForm from '../components/Signup/SignupForm';
-import { eventBus } from '../main';
+import eventBus from '../eventBus';
 
 export default {
   name: 'home',
